@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+
+# --- IMPORTANT: real DSWD applicant data must never be committed ---
+# The Data Privacy Notice (GF-014) requires de-identified data to stay
+# restricted-access. Keep any real dataset entirely out of git history.
+data/*.csv
+data/*.xlsx
+data/*.xls
+data/*.json
+data/raw/
+data/processed/
+!data/README.md
+
+# Model artifacts (can be large / retrained often)
+*.pkl
+*.joblib
+*.model
