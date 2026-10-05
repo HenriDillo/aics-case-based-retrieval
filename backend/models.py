@@ -20,7 +20,6 @@ class CaseInput(BaseModel):
     assistance_type: str
     purpose: Text
     mode_of_assistance: str
-    amount_requested: Money  # Deliberately no policy ceiling.
     family_members_employed: Count
     seasonal_employees: Count
     combined_family_income: Money

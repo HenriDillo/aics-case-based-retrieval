@@ -12,7 +12,7 @@ export default function Results({ cases, intake, onEdit, onCompare }) {
       <div className="record-top">
         <div className="intake-date"><span className="small-label">Month of intake</span><strong>{item.intake_month}</strong><span>{item.intake_year}</span></div>
         <div className="record-description"><h3 className="capitalize">{item.provided_type} assistance</h3><p>{item.provided_purpose}</p><span className="record-id">{item.control_number}</span></div>
-        <dl className="record-amounts"><div><dt>Amount requested</dt><dd>{money(item.amount_requested)}</dd></div><div><dt>Amount granted</dt><dd>{money(item.amount_granted)}</dd></div></dl>
+        <dl className="record-amounts"><div><dt>Amount granted</dt><dd>{money(item.amount_granted)}</dd></div></dl>
         <button onClick={() => onCompare(index)} aria-label={`Compare case ${item.control_number}`}>Compare case <span aria-hidden="true">→</span></button>
       </div>
       <div className="record-explanation"><strong>Why this case was retrieved</strong><ul>{item.matched_fields.map(text => <li key={text}>{text}</li>)}</ul></div>

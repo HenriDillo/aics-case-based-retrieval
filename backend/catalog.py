@@ -30,7 +30,6 @@ SECTIONS = [
         field("assistance_type", "Type of assistance sought", "select", TYPES),
         field("purpose", "Purpose of assistance"),
         field("mode_of_assistance", "Mode of assistance", "select", MODES),
-        field("amount_requested", "Amount needed / requested", "money", hint="Enter the applicant’s full request. There is no upper limit."),
     ]},
     {"id": "income", "title": "I. Income and Financial Resources", "fields": [
         field("family_members_employed", "Number of family members employed", "count"),

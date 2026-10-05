@@ -31,7 +31,6 @@ def test_dataset_has_30_complete_varied_closed_cases(client):
         assert len(group) == 5
         assert group.amount_granted.nunique() == 5
         assert group.intake_month.nunique() == 5
-    assert (frame.amount_requested >= 100_000).sum() >= 3
     for record in frame.to_dict(orient="records"):
         assert CaseInput.model_validate(record).amount_granted is not None
 
@@ -84,15 +83,7 @@ def test_fixed_retrieval_has_only_documented_fields(client, intake):
         assert all(set(row) == {"key", "label", "current", "past", "status"} for section in case["comparison"] for row in section["rows"])
 
 
-def test_high_requested_amount_has_no_policy_ceiling(client, intake):
-    intake["amount_requested"] = 9_000_000_000
-    response = client.post("/api/similar-cases", json=intake)
-    assert response.status_code == 200
-    row = next(r for r in response.json()[0]["comparison"][0]["rows"] if r["key"] == "amount_requested")
-    assert row["current"] == "₱9,000,000,000.00"
-
-
-@pytest.mark.parametrize("field,value", [("amount_requested", -1), ("amount_requested", "NaN"), ("amount_requested", "Infinity"), ("assistance_type", "unknown"), ("family_members_employed", 1.5), ("crises", ["unknown"]), ("target_sector", "unknown")])
+@pytest.mark.parametrize("field,value", [("assistance_type", "unknown"), ("family_members_employed", 1.5), ("crises", ["unknown"]), ("target_sector", "unknown")])
 def test_invalid_intakes_are_rejected_without_echoing_data(client, intake, field, value):
     intake[field] = value
     response = client.post("/api/similar-cases", json=intake)
