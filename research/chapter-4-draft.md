@@ -329,9 +329,35 @@ For each of the four non-medical types, the equal-weight reduction increases at 
 
 Under learned weights, medical improves monotonically from −35.11% at p00 through −27.08% and −20.36% to +2.21% at p75. This is consistent with emphasizing purpose reducing an obstacle to observing household-signal response. It does not isolate the effect of purpose from all other learned-weight changes. Food and funeral also increase monotonically. Cash relief and education dip at p25, so the learned-weight results must not be described as monotonic for every type.
 
-These findings are compatible with Section 4.8. The weight search minimizes an applicant-averaged scaled-error objective across the whole case base and assigns its largest mean weight to purpose. Medical dominates the unscaled peso error under equal weights, but that alone does not establish its influence on the scaled optimization objective. The observed weights and error changes support purpose as a major lever used by the search. They do not demonstrate additional household-pattern recovery by the search. Retrieval can nevertheless respond to household signal through fields already included under equal weights, as the non-medical ordered comparisons show. What the search emphasizes and what retrieval responds to are different findings.
+These findings are compatible with Section 4.8. The weight search minimizes an applicant-averaged scaled-error objective across the whole case base and assigns its largest mean weight to purpose. Medical dominates the unscaled peso error under equal weights, but that alone does not establish its influence on the scaled optimization objective. The scaled-error breakdown below addresses that separate question using the saved errors. The observed weights and error changes support purpose as a major lever used by the search. They do not demonstrate additional household-pattern recovery by the search. Retrieval can nevertheless respond to household signal through fields already included under equal weights, as the non-medical ordered comparisons show. What the search emphasizes and what retrieval responds to are different findings.
 
 There are only four points per type. This is a descriptive pattern, not a formal trend test; no statistical significance, fitted trend line or causal proof is claimed. These comparisons do not isolate the mechanism from the generator's other limitations. The main condition remains p = .50, fixed before evaluation. The better p75 results do not justify choosing a different main condition. The fixed reviewed-case test still failed at −42.74%, as Section 4.1 reports; this case-base analysis explains aspects of that result and does not overturn or replace it. It supports a household-signal response in the four non-medical types and a purpose-confusion explanation for medical that remains to be isolated in an approved comparison.
+
+### Scaled-error contribution and the observed trade-off
+
+The scaled results allow a more direct check of medical's contribution. Multiplying each type's mean scaled error by its applicant count gives the approximate proxy below. Applicants appearing in more than one type are counted in more than one row, so that proxy is not a partition of the actual applicant-averaged objective.
+
+| Type | Applicants in type | Equal scaled error | Overlapping-row proxy share % | Exact held-out objective share % |
+| --- | --- | --- | --- | --- |
+| Medical | 461 | 0.130962 | 41.4 | 43.34 |
+| Food Assistance | 80 | 0.423750 | 23.2 | 22.14 |
+| Educational | 78 | 0.307455 | 16.4 | 16.25 |
+| Funeral | 143 | 0.122569 | 12.0 | 11.61 |
+| Cash Relief Assistance | 98 | 0.102381 | 6.9 | 6.67 |
+
+The exact column is reconstructed from the saved p = .50 held-out event errors, with no retrieval or fitting rerun. For each applicant a, divide each non-transport event error by that applicant's count of non-transport events; then sum those fractions by type and divide by the 794 applicants with a defined scaled error. The contributions sum to the recorded equal-weight objective of 0.167927. Medical contributes 0.072774, or **43.34%**, the largest single block; the overlapping-row approximation is **41.4%**. These are the held-out errors under the fitted folds, not the training objective values evaluated inside each search. The same applicant-averaging convention underlies both, but the eligible reference pools differ.
+
+| Type | Equal scaled error | Learned scaled error | Learned minus equal |
+| --- | --- | --- | --- |
+| Medical | 0.130962 | 0.080893 | -0.050069 |
+| Food Assistance | 0.423750 | 0.407500 | -0.016250 |
+| Educational | 0.307455 | 0.324025 | +0.016570 |
+| Funeral | 0.122569 | 0.110388 | -0.012181 |
+| Cash Relief Assistance | 0.102381 | 0.100680 | -0.001701 |
+
+Medical has the largest decrease in per-type applicant-averaged scaled error, about 0.0501, roughly 3.1 times the next largest decrease (food, about 0.0163). Educational error instead rises by about 0.0166. The exact objective decomposition likewise assigns the largest reduction to medical: its contribution falls by 0.027421, while education's rises by 0.000915. The shared weights therefore produce an observed trade-off: substantially lower medical error accompanies higher educational error.
+
+This is consistent with purpose being a lever used by the search and medical being where that lever paid off. It describes the outcome of the learned weights; it does not isolate the optimizer's internal reasons, prove that education was deliberately sacrificed, or establish that purpose was its only useful lever. Section 4.8's household-recovery conclusion remains unchanged.
 
 ## 4.7 Five-fold learned weights and thirty-set evidence
 
