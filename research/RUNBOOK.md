@@ -1,5 +1,18 @@
 # Reproduce the completed AICS implementation
 
+## 19 October brief and rerun restriction
+
+The current reporting revision is in chapter-4-draft.md. It uses only existing
+results; the prior draft and evidence archive are retained. The private repository
+is now https://github.com/HenriDillo/aics-case-based-retrieval. The local checkout
+directory retains its old name to keep existing processes and paths working.
+
+Before any corrected-data or purpose-pool experiment, obtain Ma’am Grace’s dated
+written agreement to the exact specification in RERUN_APPROVAL_REQUEST.md. No such
+approval is recorded and neither new comparison has been run. The reproduction
+commands below describe the existing completed type-pool run, not authorization
+to alter the generator, pools, settings or evidence rules.
+
 The original bundle and the earlier provisional failed run are preserved. Current
 code uses the reconciled generator described in RECONCILIATION.md. Implementation
 choices supplement unspecified details in the manuscript; they do not imply
