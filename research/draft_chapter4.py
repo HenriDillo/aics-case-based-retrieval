@@ -433,7 +433,8 @@ eligible pool and exclusions as retrieval.
     from research.chapter4_revision import revise
     from research.dose_response_reporting import add_dose_response
     from research.scaled_objective_reporting import add_scaled_diagnosis
-    (output/'chapter-4-draft.md').write_text(add_scaled_diagnosis(add_dose_response(revise('\n\n'.join(pieces)+'\n'))),encoding='utf-8')
+    from research.missingness_reporting import add_missingness
+    (output/'chapter-4-draft.md').write_text(add_missingness(add_scaled_diagnosis(add_dose_response(revise('\n\n'.join(pieces)+'\n')))),encoding='utf-8')
     with (output/'chapter-4-per-type-results.csv').open('w',newline='',encoding='utf-8-sig') as stream:
         writer=csv.writer(stream);writer.writerow(['condition','method','type','applicants','events','mae_pesos','baseline_mae_pesos','scaled_mae','reduction_percent']);writer.writerows(appendix)
     write_json(output/'chapter-4-key-results.json',dict(main=main,selected_settings=settings,
