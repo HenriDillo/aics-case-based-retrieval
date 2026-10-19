@@ -6,12 +6,14 @@ from .catalog import SECTIONS
 def display(value, kind):
     if value is None or value == "":
         return "Not recorded"
+    if value == "not_applicable":
+        return "Not applicable"
     if kind == "money":
         return f"₱{value:,.2f}"
     if isinstance(value, bool):
         return "Yes" if value else "No"
     if isinstance(value, list):
-        return "; ".join(value) if value else "None reported"
+        return "; ".join(value) if value else "None / not applicable"
     return str(value)
 
 

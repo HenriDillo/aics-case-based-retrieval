@@ -1,9 +1,24 @@
-# Dataset contract
+# Synthetic case base
 
-`mock_cases.csv` contains exactly 30 invented, de-identified closed records (five per assistance type). No row represents a real person, office decision, or official policy ceiling. Requested amounts include deliberately large outliers. Granted amounts vary within each type; these are illustrative figures, not guidance.
+`study_intake.csv` is a byte-for-byte copy of the supplied v25 bundle's
+`data/synthetic/v1_intake.csv`: 1,000 events, 844 applicant IDs and 57 columns.
+The source bundle in Downloads remains unchanged. The app no longer reads
+`mock_cases.csv`; that older demonstration fixture remains for historical reference.
 
-There is one column per field in `backend/models.py` / `backend/catalog.py`. Multi-select columns contain JSON arrays inside standard CSV quoting. Boolean columns use `true`/`false`. Money columns contain nonnegative numeric pesos without symbols or separators; presentation adds `₱` and thousands separators. Optional text can be blank. Income breakdown components and the recorded total cover the previous six months; combined family income and family expenses are monthly. `provided_type`, `provided_purpose`, `amount_granted`, and `fund_source` describe the closed outcome and are populated in every historical row.
+The CSV uses `case_id` as applicant ID and `event_id` as an event number within
+that applicant. The composite identifies an event. `control_no` is also preserved.
+Blank values remain unknown. Granted amounts are blank and documented costs are
+absent in that preserved intake-only file.
 
-The application loads the CSV once per process at startup, validates it, and keeps it in a pandas DataFrame. It performs no writes, imports, exports, backups, persistence of intakes, or logging of request bodies. Use a single application worker for the study. The only committed CSV is this synthetic fixture.
+`study_complete.csv` is the current application default: the reconciled p=.50
+synthetic case base with generated grants and costs. It is a copy of
+research/generated/reconciled-primary/case_base_p50.csv. The research generator
+produces these values offline; the application only displays recorded fields.
+Food and cash relief have no documented cost under the rule. The app never
+calculates a recommended amount, and experimental learned weights never configure it.
 
-Later, set `AICS_CSV_PATH` to the authorized location of the study CSV (matching this schema), without copying it into this repository. Replace the marked function in `backend/retrieval.py` before switching datasets. Do not regenerate, commit, or distribute the real data. The repository does not configure a deployment or make claims about NDA compliance.
+Only generated records belong here. Keep the repository private. Do not place
+real DSWD records in the repository or use them with this prototype.
+
+Set `AICS_CSV_PATH` only to another compatible synthetic study CSV and restart
+the backend to load it. The old mock CSV schema is no longer supported by the app.

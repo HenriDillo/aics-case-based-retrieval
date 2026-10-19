@@ -1,165 +1,153 @@
 # AICS Case Reference
 
-**An Explainable Case-Based Reasoning System for AICS Assistance Decision Support in Davao City** — a BS Computer Science thesis prototype for Ateneo de Davao University.
+A local research prototype for the AICS case-based reasoning study in Davao City.
+The form now retrieves up to five same-type cases from the 1,000-event synthetic
+study case base using equal-weight Gower similarity. The social worker retains
+all decisions. No distances, scores, suggested amounts or amount summaries appear
+in the interface.
 
-This application shows closed assistance records as precedent. The social worker decides the assistance amount. It contains no scores, visible ranks, similarity percentages, urgency ordering, estimated grants, recommended ranges, or amount summaries. The retrieved records and their field explanations are the explanation.
+## Current study status
+
+The prototype now loads reconciled synthetic grants and documented costs.
+Scaling/duration selection, five-fold weights, thirty-set comparisons, sensitivity,
+recovery, convergence and repeated timing are complete. Plain scaling and categorical
+duration were retained. The fixed main test failed: retrieval MAE 1,903.82 pesos
+versus purpose-baseline MAE 1,333.76 pesos. Learned-weight improvements do not
+replace that failure. Chapter 4 is a draft for team review, not an approval claim.
+
+See `research/RUNBOOK.md` for the complete reproduction commands and the small
+fixed-seed example. `research/RECONCILIATION.md` records implementation decisions;
+`research/ALIGNMENT_AUDIT.md` preserves the earlier audit and its subsequent status.
 
 ## Run locally
 
-Requirements: Python **3.11+** and Node.js **22.12+** with npm. Run both terminals from the repository root unless a command changes directories. Both servers bind to the local computer only.
-
-### Terminal 1 — FastAPI
-
-Windows PowerShell (activation is not required):
+The tested versions are Python 3.12.10 and Node.js 24.19.0. From the repository root, use two
+PowerShell terminals:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements-lock.txt
 .\.venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-macOS / Linux:
-
-```sh
-python3 -m venv .venv
-.venv/bin/python -m pip install -r backend/requirements.txt
-.venv/bin/python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
-```
-
-API documentation: <http://127.0.0.1:8000/docs>. Use one worker: each process loads the CSV once. `--reload` is optional for development with synthetic data; a reload starts a new process and reads the CSV again.
-
-### Terminal 2 — React / Vite
-
-Windows PowerShell:
-
 ```powershell
-cd frontend
-npm.cmd ci
-npm.cmd run dev
+npm.cmd ci --prefix frontend
+npm.cmd run dev --prefix frontend
 ```
 
-macOS / Linux: use `npm ci` and `npm run dev` instead. Open **<http://127.0.0.1:5173>**. Vite forwards `/api` to FastAPI on port 8000, so no separate CORS configuration is needed. Keep both terminals running; Ctrl+C stops each server.
+Open http://127.0.0.1:5173. The backend reads the bundled synthetic
+`backend/data/study_complete.csv` once per process. An explicit `AICS_CSV_PATH` can
+select another compatible study CSV; restart the backend after changing it.
+Only generated data may be used in this private project. There are no writes to
+the source CSV, no database and no browser persistence of intakes.
 
-To verify the production build:
+## Try the actual retrieval
 
-```powershell
-cd frontend
-npm.cmd run build
-npm.cmd run preview
-```
+1. Choose a sample and click **Load sample**. Samples retain their source IDs so
+   the corresponding applicant and all their events are excluded from retrieval.
+2. Review or edit the intake. Only the assistance type is required. Leave unknown
+   answers blank, distinguish No from Not recorded, and use the response-state
+   selector on multi-select fields to distinguish unknown from recorded none.
+3. Click **Find similar cases**. Up to five same-type records are returned. A query
+   with no comparable data returns no cases, rather than invented matches.
+4. Click **Compare case** and use Previous/Next to inspect the recorded fields.
+5. Return to **Edit intake**. Any edit invalidates the old results; search again.
 
-Preview is served on <http://127.0.0.1:4173> and also requires FastAPI. This repository is a local prototype, not a production deployment configuration.
+For a returning applicant, use their existing Applicant reference ID. A matching
+control number also excludes that applicant's events. A new intake can leave IDs
+blank. The system cannot infer household identity from similar field values.
 
-## Try the workflow
+## Schema and matching
 
-1. On **New case**, choose **Medical · senior citizen**, then **Load sample**. Six saved samples cover the six assistance types. Loading a sample replaces the current draft.
-2. Review or edit the GIS sections, in their original order. Checkbox groups can be empty. Income breakdown values refer to the past six months. The total is manually recorded, never computed by the application.
-3. Leave **Assistance provided** blank for an undecided intake. If an outcome already exists, all four fields can be entered together. The system never fills them from retrieved cases.
-4. Choose **Find similar cases**. Eight fixed mock records appear, with prominent month/year, requested and granted amounts, and backend-written field explanations. There is no ordering control or visible position number.
-5. Choose **Compare case** to see every field alongside the intake in GIS order. **Same** marks equal field values; missing fields are not marked as matches. Previous/next moves through the returned records.
-6. **Edit intake** preserves your draft. Changing any field invalidates old results. A browser refresh clears the intake; nothing is saved to browser storage or a database.
+The API and form use the study's canonical field names. This replaces the old
+mock-only API contract. Occupation and service setting are included; target sector,
+sub-category and disability type are multi-select. The three study vulnerability
+flags and individual Yes/No/Not recorded resource fields are preserved.
 
-**Stub limitation:** retrieval deliberately ignores the submitted intake and always returns the same fixed cases. Its handwritten explanations describe matches against the saved medical sample only. This limitation is visible in the interface. The comparison table independently compares the actual submitted intake on the backend; its equal/different field markers remain accurate after edits or when using another sample. No real retrieval or machine learning is implemented.
+The 39-field allowlist in `study_schema.py` controls matching. Mode of assistance,
+combined income, source-specific income, diagnosis, costs and outcomes remain
+context only. The requested-amount input was removed because it is not a v25
+study field. The chosen assistance type groups candidates and is not a distance
+feature. For the synthetic data, sought and granted types coincide by design.
 
-## Repository structure
+`study_retrieval.py` removes excluded applicants before fitting ranges and removing
+constant fields. It uses plain numeric ranges, categorical illness duration,
+Jaccard multi-select similarity and the manuscript's shared-absence rules.
+`retrieval.py` returns actual case fields plus truthful exact-match examples;
+those examples describe only part of the full field comparison.
 
-```text
-.
-├── README.md
-├── .gitignore
-├── backend/
-│   ├── __init__.py
-│   ├── main.py                 # Startup and API routes
-│   ├── models.py               # Intake and response validation
-│   ├── catalog.py              # GIS field order, labels, options
-│   ├── data_store.py           # One in-memory pandas DataFrame
-│   ├── retrieval.py            # Replace only retrieve_similar_cases later
-│   ├── comparison.py           # Server-side field equality and formatting
-│   ├── samples.py              # Six synthetic sample intakes
-│   ├── requirements.txt
-│   ├── requirements-dev.txt
-│   ├── data/
-│   │   ├── mock_cases.csv      # 30 synthetic closed cases, 42 columns
-│   │   └── README.md          # CSV format and data handling
-│   └── tests/
-│       └── test_api.py
-└── frontend/
-    ├── package.json
-    ├── package-lock.json
-    ├── index.html
-    ├── vite.config.js
-    ├── public/
-    │   └── favicon.svg
-    └── src/
-        ├── main.jsx
-        ├── App.jsx
-        ├── api.js
-        ├── styles.css
-        └── components/
-            ├── Field.jsx
-            ├── IntakeForm.jsx
-            ├── Results.jsx
-            └── Comparison.jsx
-```
+Section V: explicit No in these generated CSVs means recorded absence; blanks
+mean unknown. An entirely unanswered section contributes nothing. The source does
+not preserve a paper N/A tick, so actual paper-form import needs a separate
+response-state indicator. See `backend/STUDY_RETRIEVAL.md` for detailed rules.
 
-## Retrieval replacement boundary
+## Components
 
-**Replace only `retrieve_similar_cases` in [`backend/retrieval.py`](backend/retrieval.py).** Keep this exact signature:
+- `backend/catalog.py`, `models.py`: common form definitions and API validation.
+- `backend/study_schema.py`, `study_loader.py`: schema and read-only normalization.
+- `backend/data_store.py`: one in-memory study case base.
+- `backend/study_adapter.py`: JSON and normalized-record conversion.
+- `backend/study_retrieval.py`: independently testable Gower engine.
+- `backend/retrieval.py`: application retrieval and explanation boundary.
+- `backend/comparison.py`: display-only field comparison, including missing values.
+- `frontend/src/components`: intake, results and comparison screens.
 
-```python
-def retrieve_similar_cases(new_case: dict, k: int = 8) -> list[dict]:
-    ...
-```
-
-`new_case` is a validated dictionary of the GIS fields. Use `get_cases()` for the already-loaded pandas DataFrame, treating it as read-only. Return up to `k` complete case dictionaries, each with these additional fields:
-
-```python
-{
-    # All fields from a closed CSV record, including the assistance outcome.
-    "matched_fields": [
-        "Same assistance type: medical",
-        "Both in the SC client sector",
-        "Combined family income within ₱800",
-    ],
-    "explanation_context": "These field explanations refer to the submitted intake.",
-}
-```
-
-The endpoint adds the field-by-field comparison. The browser simply renders the response, including `matched_fields` verbatim. In the future, keep any Gower distances internal to this function; never return them, turn them into match percentages, or use them to propose assistance amounts. Generate truthful field explanations for the actual intake. Do not use outcome fields (granted amount, provided type/purpose, fund source) as intake features; they may be blank and are the historical outcomes being inspected.
-
-Changing this function requires no API or frontend changes. A contract test swaps in a replacement function to verify that boundary. Dataset location is separately configurable using `AICS_CSV_PATH`; see [`backend/data/README.md`](backend/data/README.md). The real CSV must match the documented schema. Changing the data location is not part of retrieval implementation.
-
-## API
-
-| Endpoint | Request | Response |
-| --- | --- | --- |
-| `GET /api/sample-cases` | None | Array of `{id, label, case}` synthetic intakes |
-| `POST /api/similar-cases` | A `case` object | Array of full past records, `matched_fields`, `explanation_context`, and `comparison` |
-| `GET /api/form-schema` | None | Ordered GIS sections and an empty intake for the form |
-
-Amounts use JSON numbers or validated numeric input strings, without currency symbols. Rendered amounts use `₱` and thousands separators. Requested amounts have **no policy upper limit**. Negative or non-finite amounts are invalid. The schema rejects unknown fields (including names or scores). Standard finite numeric representation applies; no application monetary ceiling is imposed.
-
-For an executable example in PowerShell:
-
-```powershell
-$samples = Invoke-RestMethod http://127.0.0.1:8000/api/sample-cases
-$payload = $samples[0].case | ConvertTo-Json -Depth 8
-Invoke-RestMethod http://127.0.0.1:8000/api/similar-cases -Method Post -ContentType 'application/json; charset=utf-8' -Body ([System.Text.Encoding]::UTF8.GetBytes($payload))
-```
-
-## Checks
+## Verification
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r backend/requirements-dev.txt
-.\.venv\Scripts\python.exe -m pytest backend/tests -q
-cd frontend
-npm.cmd run build
+.\.venv\Scripts\python.exe -m pytest backend/tests -q -p no:cacheprovider
+npm.cmd run build --prefix frontend
+npm.cmd audit --prefix frontend
 ```
 
-Tests cover the 30-record dataset, one-time CSV loading, all six samples, fixed retrieval, response contracts, very large requests, invalid input, absence of unrequested response fields, correct comparison after edits, no mutations, empty results, and the retrieval replacement boundary.
+Tests cover normalization, hand-calculated similarity, applicant exclusion,
+reference-range isolation, outcome independence, all six API sample flows,
+validation, missing values, one-time loading, no mutation and response boundaries.
+Browser verification additionally covers sample loading, search, comparison,
+editing, multiple sectors, all six assistance types and desktop/mobile layouts.
 
-## Data and scope
+Passing software checks does not establish research success or accuracy against
+the purpose baseline. Both the original provisional failure and the reconciled
+failure are retained. No real recipient data or real decision validation is claimed.
 
-All records, control numbers, purposes, and fund sources are invented. The five grants within each assistance type differ, and requests include large outliers. They are not an assertion of current DSWD policy ceilings. No official eligibility or ceiling rules are encoded.
+## Historical provisional preparation
 
-No name field, database, CSV-writing endpoint, browser persistence, dataset export, ML model, or external service is present. The application loads one CSV into memory at startup using FastAPI's [lifespan mechanism](https://fastapi.tiangolo.com/advanced/events/). React/Vite handles presentation and input state only; field validation, retrieval, and comparisons live in Python. The Vite setup follows the official [getting started documentation](https://vite.dev/guide/).
+For reproducibility of the existing provisional implementation only, the four
+research datasets and their audit files can be built with the command below.
+For current experiments use `research.reconciled` and the runbook instead.
+
+```powershell
+.\.venv\Scripts\python.exe -m research.build_dataset --output research/generated/new-run
+```
+
+Use a new output directory. See `research/README.md` for source figures, explicitly
+assumed ranges, consistency repairs, the updated missing-value policy and the
+shared 1,000-event calibration. These historical outputs remain separate from the
+reconciled p=.50 data now explicitly configured in the application.
+
+## Reporting additions — 19 October 2026
+
+The proposed methods were implemented after Henri asked to complete the remaining
+work. Team/adviser review remains distinct from authorization to implement code.
+
+The tested Python environment is recorded in `backend/requirements-lock.txt`.
+For a fresh Python 3.12 environment, install with
+`python -m pip install -r backend/requirements-lock.txt`.
+This is an exact snapshot of the tested environment, not a claim that a fresh
+installation has been independently tested.
+
+Run from the repository root:
+
+```powershell
+python -m research.validate_intake backend/data/study_intake.csv
+python -m research.sheets --output research/generated/review-packet-new
+python -m research.report_completion --output research/generated/report-supplement-new
+python -m pytest backend/tests -q -p no:cacheprovider
+```
+
+The validator reports source contradictions without repairing data and returns
+nonzero when violations exist. The packet command verifies and copies the existing
+reviewed DOCX; use `research.make_sheets` for CSV-driven printable HTML. Output directories
+must not already exist. The supplement reads the preserved `evaluation-v1` and
+provisional `v26` data and verifies that old evaluation files are unchanged.

@@ -1,0 +1,41 @@
+﻿case_id,type,purpose,documented_cost,household_z,share,amount_granted,floor_bound,cap_bound,base_source
+J01,Medical,Medicines,3350,1.446,0.9142,3050,False,False,"Table 29 p.41 medicine 6,301.63/7,831.71"
+J02,Educational,Allowance,12700,0.108,0.7496,9500,False,False,"Table 32 p.42 7,142.86/11,700.00 against tuition"
+J03,Educational,School fees,10500,0.798,0.7725,8100,False,False,Table 32 p.42
+J04,Funeral,Funeral expenses,35500,-0.669,0.2498,8850,False,False,"Table 31 p.41 13,129.63/45,230.74"
+J05,Educational,School supplies,7000,1.014,0.626,4400,False,False,Table 32 p.42
+J06,Food Assistance,Food subsidy,,-0.453,,4650,False,False,Table 33 p.42 Region XI food assistance received
+J07,Cash Relief Assistance,Other needs,,-0.626,,3150,False,False,Table 33 p.42 Region XI cash assistance received
+J08,Transportation,Transportation to home province,6100,0.798,1.0,6100,False,False,ASSUMPTION. Table 2 p.16 sets transportation at actual ticket cost. Table 34 has no Region XI row.
+J09,Funeral,Cadaver transfer,35500,-0.367,0.2849,10100,False,False,"Table 31 p.41, same row as funeral expenses"
+J10,Cash Relief Assistance,Other needs,,-1.187,,4200,False,False,Table 33 p.42 Region XI cash assistance received
+J11,Funeral,Funeral expenses,35500,1.489,0.3164,11250,False,False,"Table 31 p.41 13,129.63/45,230.74"
+J12,Medical,Hospital bill,40500,0.453,0.2454,9950,False,False,"Table 29 p.41 hospitalization 30,574.07/147,375.00"
+J13,Medical,Hospital bill,112000,-0.669,0.1883,21100,False,False,"Table 29 p.41 hospitalization 30,574.07/147,375.00"
+J14,Medical,Hospital bill,87000,0.539,0.3242,28200,False,False,"Table 29 p.41 hospitalization 30,574.07/147,375.00"
+J15,Medical,Medicines,7000,-0.712,1.0,7000,False,False,"Table 29 p.41 medicine 6,301.63/7,831.71"
+J16,Medical,Medicines,2650,-2.266,0.8279,2200,False,False,"Table 29 p.41 medicine 6,301.63/7,831.71"
+J17,Food Assistance,Food subsidy,,-0.539,,4350,False,False,Table 33 p.42 Region XI food assistance received
+J18,Funeral,Funeral expenses,34500,-0.108,0.4384,15100,False,False,"Table 31 p.41 13,129.63/45,230.74"
+J19,Medical,Medicines,8600,-2.007,0.5562,4800,False,False,"Table 29 p.41 medicine 6,301.63/7,831.71"
+J20,Cash Relief Assistance,Other needs,,-0.022,,3250,False,False,Table 33 p.42 Region XI cash assistance received
+J21,Cash Relief Assistance,Other needs,,-0.755,,3400,False,False,Table 33 p.42 Region XI cash assistance received
+J22,Medical,Medicines,3350,1.446,0.9142,3050,False,False,"Table 29 p.41 medicine 6,301.63/7,831.71"
+J23,Transportation,Transportation for medical treatment,4300,1.014,1.0,4300,False,False,"ASSUMPTION, as above"
+J24,Funeral,Funeral expenses,35500,-0.971,0.2673,9500,False,False,"Table 31 p.41 13,129.63/45,230.74"
+J25,Medical,Assistive device,27500,0.453,0.2875,7900,False,False,"BORROWED from Table 29 dialysis/chemo 8,228.57/23,142.86; Table 30 prints no cost column and no Region XI row"
+J26,Funeral,Funeral expenses,33500,-0.842,0.249,8350,False,False,"Table 31 p.41 13,129.63/45,230.74"
+J27,Educational,School fees,10500,1.489,0.6591,6900,False,False,Table 32 p.42
+J28,Medical,Hospital bill,112000,-0.669,0.1883,21100,False,False,"Table 29 p.41 hospitalization 30,574.07/147,375.00"
+J29,Medical,Medicines,2300,-0.755,0.6407,1450,False,False,"Table 29 p.41 medicine 6,301.63/7,831.71"
+J30,Funeral,Funeral expenses,35500,1.489,0.3164,11250,False,False,"Table 31 p.41 13,129.63/45,230.74"
+J31,Food Assistance,Food subsidy,,-0.194,,4850,False,False,Table 33 p.42 Region XI food assistance received
+J32,Transportation,Transportation to home province,3900,1.144,1.0,3900,False,False,ASSUMPTION. Table 2 p.16 sets transportation at actual ticket cost. Table 34 has no Region XI row.
+J33,Food Assistance,Food subsidy,,-0.194,,3450,False,False,Table 33 p.42 Region XI food assistance received
+J34,Transportation,Transportation to home province,2450,-0.712,1.0,2450,False,False,ASSUMPTION. Table 2 p.16 sets transportation at actual ticket cost. Table 34 has no Region XI row.
+J35,Cash Relief Assistance,Other needs,,-0.022,,3250,False,False,Table 33 p.42 Region XI cash assistance received
+J36,Funeral,Funeral expenses,20500,-0.755,0.2263,5000,True,False,"Table 31 p.41 13,129.63/45,230.74"
+J37,Medical,Hospital bill,87000,-0.065,0.2334,20300,False,False,"Table 29 p.41 hospitalization 30,574.07/147,375.00"
+J38,Medical,Medicines,3500,2.222,0.9303,3250,False,False,"Table 29 p.41 medicine 6,301.63/7,831.71"
+J39,Educational,Allowance,6650,0.669,0.4183,2800,False,False,"Table 32 p.42 7,142.86/11,700.00 against tuition"
+J40,Medical,Medicines,3550,-1.014,0.6173,2200,False,False,"Table 29 p.41 medicine 6,301.63/7,831.71"

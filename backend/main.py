@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="AICS Case Reference — research prototype", version="1.0.0", lifespan=lifespan)
+app = FastAPI(title="AICS Case Reference — research prototype", version="2.0.0", lifespan=lifespan)
 
 
 @app.exception_handler(RequestValidationError)
@@ -49,6 +49,6 @@ def similar_cases(new_case: CaseInput):
     current = new_case.model_dump()
     results = retrieval.retrieve_similar_cases(current)
     # Only allow the documented contract through. Comparison logic remains
-    # independent of the future retrieval method; no frontend matching rules.
+    # independent of the retrieval method; no frontend matching rules.
     return [RetrievedCase.model_validate({**case, "comparison": compare_cases(current, case)}) for case in results]
 

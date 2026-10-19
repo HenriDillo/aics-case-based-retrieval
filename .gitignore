@@ -12,3 +12,10 @@ backend/data/*
 !backend/data/mock_cases.csv
 !backend/data/README.md
 
+
+# Generated synthetic study input only; never add real records.
+!backend/data/study_intake.csv
+!backend/data/study_complete.csv
+
+# Generated research artifacts can be rebuilt; local-only until reviewed.
+research/generated/

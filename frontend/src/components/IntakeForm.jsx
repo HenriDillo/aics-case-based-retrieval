@@ -19,7 +19,7 @@ export default function IntakeForm({ sections, samples, draft, onChange, onLoad,
   return <>
     <div className="page-heading"><div><h1>New case</h1><p>Enter the intake details to review past assistance cases.</p></div></div>
     <div className="sample-bar">
-      <div><strong>Try a saved sample</strong><p>Load a complete, synthetic intake for testing.</p></div>
+      <div><strong>Try a saved sample</strong><p>Load a synthetic study intake. Missing answers stay not recorded.</p></div>
       <div className="sample-controls"><label className="sr-only" htmlFor="sample">Saved sample case</label>
         <select id="sample" value={sampleId} onChange={event => setSampleId(event.target.value)}>
           <option value="">Choose a sample case</option>
@@ -28,7 +28,7 @@ export default function IntakeForm({ sections, samples, draft, onChange, onLoad,
         <button type="button" disabled={!sampleId || busy} onClick={() => onLoad(samples.find(sample => sample.id === sampleId))}>Load sample</button>
       </div>
     </div>
-    <p className="status-line" role="status">{notice || 'All fields are required unless marked optional. Checkbox groups may be left empty.'}</p>
+    <p className="status-line" role="status">{notice || 'Choose an assistance type. Leave unknown answers blank; use No or recorded none only when known.'}</p>
     <form ref={formRef} noValidate onSubmit={event => { event.preventDefault(); onSubmit(); }}>
       {error ? <div className="error-box" role="alert" tabIndex="-1" ref={errorRef}>
         <strong>{error.message}</strong>
@@ -43,7 +43,7 @@ export default function IntakeForm({ sections, samples, draft, onChange, onLoad,
         <summary><span>{section.title}</span><span className="section-toggle" aria-hidden="true">+</span></summary>
         <div className="section-body">
           {section.description ? <p className="section-description">{section.description}</p> : null}
-          {section.id === 'sector' ? <p className="section-description">Enter each income source for the past 6 months. The total is recorded as entered.</p> : null}
+          {section.id === 'sector' ? <p className="section-description">Enter income sources as recorded on the intake. Record the six-month total separately.</p> : null}
           <div className="fields-grid">{section.fields.map(field => <Field key={field.key} field={field} value={draft[field.key]} onChange={value => onChange(field.key, value)} />)}</div>
         </div>
       </details>)}

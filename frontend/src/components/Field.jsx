@@ -20,10 +20,13 @@ export default function Field({ field, value, onChange }) {
   if (field.kind === 'multi') {
     return <fieldset className="multi-field">
       <legend>{field.label}</legend>
-      <p className="field-hint">Select all that apply. Leave unchecked if none are reported.</p>
+      <p className="field-hint">Choose a response state, then select all that apply.</p>
+      <select aria-label={`${field.label} response state`} value={value === null || value === undefined ? 'unknown' : 'recorded'} onChange={event => onChange(event.target.value === 'unknown' ? null : [])}>
+        <option value="unknown">Not recorded</option><option value="recorded">Recorded (none / not applicable if unchecked)</option>
+      </select>
       <div className="checkbox-grid">{field.options.map(option => <label key={option} className="check-label">
-        <input type="checkbox" checked={(value ?? []).includes(option)}
-          onChange={event => onChange(event.target.checked ? [...(value ?? []), option] : value.filter(item => item !== option))} />
+        <input type="checkbox" disabled={value == null} checked={(value ?? []).includes(option)}
+          onChange={event => onChange(event.target.checked ? [...(value ?? []), option] : (value ?? []).filter(item => item !== option))} />
         <span>{option}</span>
       </label>)}</div>
     </fieldset>;
@@ -33,9 +36,9 @@ export default function Field({ field, value, onChange }) {
     {field.kind === 'money' ? <MoneyInput id={id} value={value} onChange={onChange} describedBy={hintId} />
       : field.kind === 'select' || field.kind === 'boolean' ? <select id={id} value={value ?? ''} aria-describedby={hintId}
         onChange={event => onChange(field.kind === 'boolean' ? (event.target.value === '' ? null : event.target.value === 'true') : event.target.value)}>
-        <option value="">Select an option</option>
+        <option value="">{field.optional ? 'Not recorded' : 'Select an option'}</option>
         {field.kind === 'boolean' ? <><option value="true">Yes</option><option value="false">No</option></>
-          : field.options.map(option => <option key={option} value={option}>{option}</option>)}
+          : field.options.map(option => <option key={option} value={option}>{option === 'not_applicable' ? 'Not applicable' : option}</option>)}
       </select>
       : <input id={id} type={['count', 'year'].includes(field.kind) ? 'number' : 'text'}
         step={['count', 'year'].includes(field.kind) ? '1' : undefined}
