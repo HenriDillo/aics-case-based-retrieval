@@ -1,0 +1,2857 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Chapter 4 2026-10-20-v05</title><style>body{font:11pt Georgia,'Times New Roman',serif;line-height:1.45;color:#111;max-width:980px;margin:32px auto}h1{font-size:22pt;line-height:1.2}h2{font-size:14pt;margin-top:22pt;break-after:avoid}h3{break-after:avoid}p{orphans:3;widows:3}table{width:100%;border-collapse:collapse;font:8pt Arial,sans-serif;margin:14px 0}th,td{border:1px solid #bbb;padding:4px 5px;overflow-wrap:anywhere;vertical-align:top}th{background:#eee;text-align:left;overflow-wrap:normal}thead{display:table-header-group}tr{break-inside:avoid}img{max-width:100%;max-height:350px;display:block;margin:16px auto}code{font-size:8pt;overflow-wrap:anywhere}p:has(>strong:only-child){break-after:avoid}table.compact{break-inside:avoid}td.numeric{white-space:nowrap;text-align:right}.sources{break-before:page}@page{size:A4;margin:18mm 16mm 20mm}@media print{body{max-width:none;margin:0}h1{font-size:20pt}table{font-size:7.5pt}}</style><main><h1>Chapter 4</h1>
+<h1>Results and discussion</h1>
+<p>Draft for research-team review · version 2026-10-20-v05 · revision timestamp 20 October 2026, 22:50 PHT (UTC+08:00) · original failed results retained; post-test correction and both pool reruns reported</p>
+<h2>4.1 Scope and principal finding</h2>
+<p>This chapter reports the completed synthetic-data experiments for the AICS case
+reference prototype. The fixed main test <strong>failed</strong>. On the 36 non-transport
+reviewed cases at p = .50 and five retrieved neighbors, equal-weight retrieval
+had mean absolute error (MAE) of <strong>₱1,903.82</strong>, compared with
+<strong>₱1,333.76</strong> for the same-purpose baseline. The resulting
+reduction was <strong>-42.74%</strong>, rather than the required
+reduction of at least 20%. The maximum MAE compatible with that criterion was
+₱1,067.01. These results do not establish that the proposed
+retrieval method works on this dataset under the study&#39;s stated success criterion.</p>
+<p>In the historical pre-correction run, all four non-medical assistance types show steadily increasing reductions in case-base retrieval error relative to their condition-specific purpose baselines as planted household signal increases; this ordered pattern is descriptive and does not change the fixed reviewed-case failure.</p>
+<p>The historical type-pool weight-learning experiment improved over equal weights under its
+specified tests. That finding addresses a different comparison and does not
+replace the failed main test. In particular, improvement also appeared in the
+no-household-signal control. It cannot, by itself, establish recovery of household
+structure or usefulness in real benefit decisions.</p>
+<p>All records and evaluated grants are synthetic. No social worker answered the case sheets or used the prototype in this study. There was no user acceptance testing (UAT), System Usability Scale (SUS) exercise, or collection of social-worker judgments. “Reviewed cases” below names the supplied forty-case packet and does not denote human outcome evaluation. The current Chapters 1–3 source is Manuscript v27 dated 20 October 2026.</p>
+<p>The pool amendment and the missing-value correction were decided after the fixed main test had been run and had failed. Both the original type-pool result and the amended purpose-pool result are reported, and the original result is not withdrawn.</p>
+<p>The corrected type-pool and purpose-pool fixed tests also fail, at −49.05% and −5.13% reduction respectively. Separately, on the case base, purpose pooling changes medical’s equal-weight reduction from −337.07% to +10.26% at p = .50 and produces +22.40% at p75. This is an important diagnostic improvement, not a replacement for the failed fixed test.</p>
+<p>The research team decided to make the two amendments on 20 October 2026 without first seeking Ma’am Grace’s agreement. No adviser approval or prospective registration of the amendments is claimed. The settings for the new comparisons were recorded before generating corrected outcomes. Sections 4.2–4.10 retain the historical pre-correction study, including its failed results and diagnostic analyses; Sections 4.13–4.17 report the new follow-ups. This chapter ends at Chapter 4.</p>
+<h2>4.2 Historical implementation and provenance</h2>
+<p>The comparison uses the 39 fields specified in the manuscript, same-type reference
+pools, applicant-level exclusion, reference-only numeric ranges and constants,
+Jaccard scores for multi-select fields, and the specified treatment of unknowns,
+not-applicable values and shared absences. All events of a held-out applicant are
+excluded. The reviewed cases are never inserted into the case base; the evaluator
+also applies their documented partner exclusions. The prototype displays five
+past cases using equal weights and does not output a prediction or applicant score.</p>
+<p>The reconciled implementation restores the supplied amount-code scoring semantics
+and sorted-payload noise algorithm. Compatibility tests reproduce all 160 supplied
+forty-case amounts with the supplied calibration. The study run instead uses the
+required calibration from the 1,000-event case base and reuses it for the forty
+test cases. Per-event scoring avoids the source script&#39;s repeated-applicant
+overwrite. Cost and rounding constraints are enforced explicitly.</p>
+<p>Researcher-selected cost ranges were retained from the earlier preparation, not
+changed in response to its failed result. They use uniform intervals from 0.5 to
+1.5 times available cost benchmarks; device and transport ranges remain declared
+assumptions. Educational costs use a tuition proxy. Laboratory uses the published
+ratio .9052; dialysis and chemotherapy each use .3556 from their combined source
+row. These completions and proxies must remain disclosed in the methodology.</p>
+<p>The existing base had 244 wage-label contradictions. The reconciled copy removes
+the contradictory labels without changing incomes or worker counts. New generated
+sets enforce that consistency before inserting unknown values. Ten original-base
+events remain unverifiable because worker counts are missing; they are flagged,
+not presented as validated. Unknown values are still excluded from Gower. The
+source amount rule&#39;s distinct missing-score semantics are preserved and are a
+limitation of the synthetic mechanism.</p>
+<p>The earlier provisional run is retained separately: its main-test retrieval MAE
+was ₱1,930.18 against ₱923.49, a −109.01% reduction. The reconciled run is a distinct
+version justified by source compatibility, not a replacement advertised as success.</p>
+<p>The purpose-baseline MAE also rose from ₱923.49 in the provisional run to ₱1,333.76 in the reconciled run (44.43%); reconciliation changed the generated outcomes and calibration used by the comparator, so this is a change of run definition, not an improvement measured against a fixed baseline.</p>
+<h2>4.3 Data composition and published benchmarks</h2>
+<p>The primary base contains 1,000 events from 844 applicant IDs. The published-mix
+column below is the comparator recorded in the supplied figures module (Table 12);
+the synthetic mix was deliberately flattened. It is not a sampled Davao City
+population distribution. Rounded published percentages sum to approximately 100%.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Assistance type</th>
+<th>Generated events</th>
+<th>Generated %</th>
+<th>Bundle published comparator %</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cash Relief Assistance</td>
+<td class="numeric">100</td>
+<td class="numeric">10.0</td>
+<td class="numeric">8.3</td>
+</tr>
+<tr>
+<td>Educational</td>
+<td class="numeric">80</td>
+<td class="numeric">8.0</td>
+<td class="numeric">4.0</td>
+</tr>
+<tr>
+<td>Food Assistance</td>
+<td class="numeric">80</td>
+<td class="numeric">8.0</td>
+<td class="numeric">3.8</td>
+</tr>
+<tr>
+<td>Funeral</td>
+<td class="numeric">150</td>
+<td class="numeric">15.0</td>
+<td class="numeric">12.3</td>
+</tr>
+<tr>
+<td>Medical</td>
+<td class="numeric">510</td>
+<td class="numeric">51.0</td>
+<td class="numeric">70.6</td>
+</tr>
+<tr>
+<td>Transportation</td>
+<td class="numeric">80</td>
+<td class="numeric">8.0</td>
+<td class="numeric">1.1</td>
+</tr>
+</tbody></table>
+<p>The flattened mix cuts against the study’s interpretation: medical represents 51.0% of generated events versus 70.6% in the supplied published comparator. Because medical has the largest error and baseline deficit, a more medical-heavy mix would worsen the pooled result if the observed within-type errors held fixed. This is a composition sensitivity interpretation, not an estimate from a representative population or a newly generated sample.</p>
+<p>Six-month income bands are retained as generated, without balancing them to improve detectability.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Income band</th>
+<th>Base events</th>
+<th>Reviewed cases</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Below food threshold</td>
+<td class="numeric">529</td>
+<td class="numeric">26</td>
+</tr>
+<tr>
+<td>Food to poverty threshold</td>
+<td class="numeric">148</td>
+<td class="numeric">7</td>
+</tr>
+<tr>
+<td>At or above poverty threshold</td>
+<td class="numeric">271</td>
+<td class="numeric">7</td>
+</tr>
+<tr>
+<td>Unknown</td>
+<td class="numeric">52</td>
+<td class="numeric">0</td>
+</tr>
+</tbody></table>
+<p>The cost checks below compare generated means with the historical published anchors, not current benefit policy. No post-result cost adjustment was made.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Group</th>
+<th>Published mean cost ₱</th>
+<th>Generated mean cost ₱</th>
+<th>Difference %</th>
+<th>Within 20%</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hospital bill</td>
+<td class="numeric">147,375.00</td>
+<td class="numeric">150,927.42</td>
+<td class="numeric">2.41</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>Funeral</td>
+<td class="numeric">45,230.74</td>
+<td class="numeric">46,048.33</td>
+<td class="numeric">1.81</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>Medicines</td>
+<td class="numeric">7,831.71</td>
+<td class="numeric">7,949.84</td>
+<td class="numeric">1.51</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>Laboratory</td>
+<td class="numeric">5,800.00</td>
+<td class="numeric">6,040.52</td>
+<td class="numeric">4.15</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>Educational</td>
+<td class="numeric">11,700.00</td>
+<td class="numeric">11,261.25</td>
+<td class="numeric">-3.75</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>Chemotherapy</td>
+<td class="numeric">23,142.86</td>
+<td class="numeric">21,652.78</td>
+<td class="numeric">-6.44</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>Dialysis</td>
+<td class="numeric">23,142.86</td>
+<td class="numeric">24,555.26</td>
+<td class="numeric">6.10</td>
+<td class="numeric">True</td>
+</tr>
+</tbody></table>
+<p>The following p = .50 summaries compare aggregate generated shares (total grants divided by total costs) with the declared share bases. Food and cash relief instead compare mean amounts in pesos. Shares are not mean individual ratios. The borrowed device share and exact transport share are assumptions, not Region XI estimates.</p>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>n</th>
+<th>Generated share or mean ₱</th>
+<th>Rule base share or mean ₱</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Allowance</td>
+<td class="numeric">19</td>
+<td class="numeric">0.6540</td>
+<td class="numeric">0.6105</td>
+</tr>
+<tr>
+<td>Assistive device</td>
+<td class="numeric">14</td>
+<td class="numeric">0.4009</td>
+<td class="numeric">0.3556</td>
+</tr>
+<tr>
+<td>Cadaver transfer</td>
+<td class="numeric">16</td>
+<td class="numeric">0.3313</td>
+<td class="numeric">0.2903</td>
+</tr>
+<tr>
+<td>Chemotherapy</td>
+<td class="numeric">18</td>
+<td class="numeric">0.3525</td>
+<td class="numeric">0.3556</td>
+</tr>
+<tr>
+<td>Dialysis</td>
+<td class="numeric">19</td>
+<td class="numeric">0.3479</td>
+<td class="numeric">0.3556</td>
+</tr>
+<tr>
+<td>Food subsidy</td>
+<td class="numeric">80</td>
+<td class="numeric">4,096.25</td>
+<td class="numeric">3,857.14</td>
+</tr>
+<tr>
+<td>Funeral expenses</td>
+<td class="numeric">134</td>
+<td class="numeric">0.3057</td>
+<td class="numeric">0.2903</td>
+</tr>
+<tr>
+<td>Hospital bill</td>
+<td class="numeric">93</td>
+<td class="numeric">0.2121</td>
+<td class="numeric">0.2075</td>
+</tr>
+<tr>
+<td>Laboratory</td>
+<td class="numeric">58</td>
+<td class="numeric">0.8163</td>
+<td class="numeric">0.9052</td>
+</tr>
+<tr>
+<td>Medicines</td>
+<td class="numeric">308</td>
+<td class="numeric">0.7780</td>
+<td class="numeric">0.8046</td>
+</tr>
+<tr>
+<td>Other needs</td>
+<td class="numeric">100</td>
+<td class="numeric">4,687.50</td>
+<td class="numeric">4,400.00</td>
+</tr>
+<tr>
+<td>School fees</td>
+<td class="numeric">35</td>
+<td class="numeric">0.6381</td>
+<td class="numeric">0.6105</td>
+</tr>
+<tr>
+<td>School supplies</td>
+<td class="numeric">26</td>
+<td class="numeric">0.6223</td>
+<td class="numeric">0.6105</td>
+</tr>
+<tr>
+<td>Transportation for medical treatment</td>
+<td class="numeric">33</td>
+<td class="numeric">1.0000</td>
+<td class="numeric">1.0000</td>
+</tr>
+<tr>
+<td>Transportation to home province</td>
+<td class="numeric">47</td>
+<td class="numeric">1.0000</td>
+<td class="numeric">1.0000</td>
+</tr>
+</tbody></table>
+<p>The published amounts and costs were reported for a historical population and may
+include payments by other sources. Here documented cost is the outstanding need.
+Agreement of selected summary means therefore supports a limited plausibility
+check, not population validity or proof of realistic joint relationships.</p>
+<h2>4.4 Missingness and effective comparisons</h2>
+<p>Unknown entries are not imputed into the distance. Explicit No and not-applicable
+values follow the manuscript&#39;s separate rules. The primary base has the following
+unknown counts among matching fields; rates use 1,000 events as the denominator.</p>
+<table>
+<thead>
+<tr>
+<th>Matching field</th>
+<th>Unknown events</th>
+<th>Unknown %</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>client_type</td>
+<td class="numeric">0</td>
+<td class="numeric">0.0</td>
+</tr>
+<tr>
+<td>crisis_catastrophic_event</td>
+<td class="numeric">21</td>
+<td class="numeric">2.1</td>
+</tr>
+<tr>
+<td>crisis_death_of_member</td>
+<td class="numeric">14</td>
+<td class="numeric">1.4</td>
+</tr>
+<tr>
+<td>crisis_disablement</td>
+<td class="numeric">19</td>
+<td class="numeric">1.9</td>
+</tr>
+<tr>
+<td>crisis_hospitalization</td>
+<td class="numeric">28</td>
+<td class="numeric">2.8</td>
+</tr>
+<tr>
+<td>crisis_last_3_months</td>
+<td class="numeric">27</td>
+<td class="numeric">2.7</td>
+</tr>
+<tr>
+<td>crisis_loss_of_livelihood</td>
+<td class="numeric">25</td>
+<td class="numeric">2.5</td>
+</tr>
+<tr>
+<td>crisis_others</td>
+<td class="numeric">15</td>
+<td class="numeric">1.5</td>
+</tr>
+<tr>
+<td>disability_type</td>
+<td class="numeric">2</td>
+<td class="numeric">0.2</td>
+</tr>
+<tr>
+<td>emergency_fund</td>
+<td class="numeric">23</td>
+<td class="numeric">2.3</td>
+</tr>
+<tr>
+<td>employed_members</td>
+<td class="numeric">14</td>
+<td class="numeric">1.4</td>
+</tr>
+<tr>
+<td>ext_guarantee_letter_other_agency</td>
+<td class="numeric">19</td>
+<td class="numeric">1.9</td>
+</tr>
+<tr>
+<td>ext_health_card</td>
+<td class="numeric">18</td>
+<td class="numeric">1.8</td>
+</tr>
+<tr>
+<td>ext_mss_discount</td>
+<td class="numeric">23</td>
+<td class="numeric">2.3</td>
+</tr>
+<tr>
+<td>ext_philhealth</td>
+<td class="numeric">26</td>
+<td class="numeric">2.6</td>
+</tr>
+<tr>
+<td>ext_pwd_discount</td>
+<td class="numeric">24</td>
+<td class="numeric">2.4</td>
+</tr>
+<tr>
+<td>ext_senior_citizen_discount</td>
+<td class="numeric">17</td>
+<td class="numeric">1.7</td>
+</tr>
+<tr>
+<td>illness_duration</td>
+<td class="numeric">14</td>
+<td class="numeric">1.4</td>
+</tr>
+<tr>
+<td>insurance_coverage</td>
+<td class="numeric">21</td>
+<td class="numeric">2.1</td>
+</tr>
+<tr>
+<td>monthly_expenses</td>
+<td class="numeric">45</td>
+<td class="numeric">4.5</td>
+</tr>
+<tr>
+<td>occupation</td>
+<td class="numeric">15</td>
+<td class="numeric">1.5</td>
+</tr>
+<tr>
+<td>purpose_of_assistance</td>
+<td class="numeric">0</td>
+<td class="numeric">0.0</td>
+</tr>
+<tr>
+<td>referral_type</td>
+<td class="numeric">23</td>
+<td class="numeric">2.3</td>
+</tr>
+<tr>
+<td>savings</td>
+<td class="numeric">19</td>
+<td class="numeric">1.9</td>
+</tr>
+<tr>
+<td>seasonal_members</td>
+<td class="numeric">19</td>
+<td class="numeric">1.9</td>
+</tr>
+<tr>
+<td>selfhelp_reached_agencies</td>
+<td class="numeric">24</td>
+<td class="numeric">2.4</td>
+</tr>
+<tr>
+<td>selfhelp_sought_income</td>
+<td class="numeric">22</td>
+<td class="numeric">2.2</td>
+</tr>
+<tr>
+<td>service_setting</td>
+<td class="numeric">21</td>
+<td class="numeric">2.1</td>
+</tr>
+<tr>
+<td>sub_category</td>
+<td class="numeric">22</td>
+<td class="numeric">2.2</td>
+</tr>
+<tr>
+<td>support_church</td>
+<td class="numeric">18</td>
+<td class="numeric">1.8</td>
+</tr>
+<tr>
+<td>support_employer</td>
+<td class="numeric">28</td>
+<td class="numeric">2.8</td>
+</tr>
+<tr>
+<td>support_family</td>
+<td class="numeric">17</td>
+<td class="numeric">1.7</td>
+</tr>
+<tr>
+<td>support_friends</td>
+<td class="numeric">12</td>
+<td class="numeric">1.2</td>
+</tr>
+<tr>
+<td>support_relatives</td>
+<td class="numeric">15</td>
+<td class="numeric">1.5</td>
+</tr>
+<tr>
+<td>target_sector</td>
+<td class="numeric">0</td>
+<td class="numeric">0.0</td>
+</tr>
+<tr>
+<td>total_income_past_6_months</td>
+<td class="numeric">52</td>
+<td class="numeric">5.2</td>
+</tr>
+<tr>
+<td>vuln_elderly_child_pwd_pregnant</td>
+<td class="numeric">18</td>
+<td class="numeric">1.8</td>
+</tr>
+<tr>
+<td>vuln_member_incapacitated</td>
+<td class="numeric">20</td>
+<td class="numeric">2.0</td>
+</tr>
+<tr>
+<td>vuln_unstable_employment</td>
+<td class="numeric">32</td>
+<td class="numeric">3.2</td>
+</tr>
+</tbody></table>
+<p>At p = .50, the equal-weight retrieved pairs compared between 24 and
+36 fields (median 31). Learned-weight retrieved
+pairs had between 21 and 34 comparable fields with positive
+weight (median 28). The equal-weight primary run counted
+0 undefined eligible pairs. The machine-readable results retain each
+neighbor&#39;s count; available-field counts and positive-weight counts are distinguished.</p>
+<p>The source schema lacks the separate Section V not-applicable tick, so all-No
+resource rows cannot independently establish whether that tick was recorded.
+The supplied explicit No values are retained with a provenance warning. This
+cannot be repaired by inferring an unrecorded answer.</p>
+<h3>Exact record-level completeness</h3>
+<p>Counting the existing CSV records directly gives the following completeness figures. Unknown means an empty or explicitly unrecorded value under the existing loader; explicit No, numeric zero and recorded not-applicable values are not counted as unknown. These are event counts, not counts of distinct applicants.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Field scope</th>
+<th>Events</th>
+<th>Unknown cells</th>
+<th>Complete events</th>
+<th>Incomplete events</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Primary case base</td>
+<td>39 matching fields</td>
+<td class="numeric">1000</td>
+<td class="numeric">772</td>
+<td class="numeric">463</td>
+<td class="numeric">537</td>
+</tr>
+<tr>
+<td>Primary case base</td>
+<td>28 household-rule fields</td>
+<td class="numeric">1000</td>
+<td class="numeric">606</td>
+<td class="numeric">545</td>
+<td class="numeric">455</td>
+</tr>
+<tr>
+<td>Frozen reviewed cases</td>
+<td>39 matching fields</td>
+<td class="numeric">40</td>
+<td class="numeric">21</td>
+<td class="numeric">22</td>
+<td class="numeric">18</td>
+</tr>
+<tr>
+<td>Frozen reviewed cases</td>
+<td>28 household-rule fields</td>
+<td class="numeric">40</td>
+<td class="numeric">14</td>
+<td class="numeric">27</td>
+<td class="numeric">13</td>
+</tr>
+</tbody></table>
+<p>For the 39 matching fields, 463 of 1,000 events (46.3%) are complete. The 772 unknown cells give a mean cell-level rate of 1.98%; multiplying the per-field observed proportions under an independence assumption would predict approximately 457.6 complete events, but the actual joint count is 463. For the correction to the household score, the relevant direct count is narrower: 455 events (45.5%) have an unknown in at least one of its 28 fields, containing 606 unknown cells. The other 545 events have complete household-rule inputs. Missingness is therefore material, even though the typical per-field rate is small.</p>
+<p>Across the frozen 40-case source file, excluding the blank outcome column, there are 287 unknown cells in 21 columns and every case has at least one. That broader scope includes context and income-source fields not used in matching or the household score. Within the 39 matching fields, only 18 cases have unknowns (21 cells); within the 28 household-rule fields, 13 have unknowns (14 cells). The statement that all 40 source cases contain an unrecorded entry must not be read as saying all 40 household scores are incomplete.</p>
+<p>The intake inputs remain frozen. The post-test correction in Section 4.13 handles existing unknowns through bounded available-field aggregation. It preserves complete records’ raw household scores, but recalibration can change their standardized scores and generated grants. Rounding and bounds can also preserve some grants. These follow-ups are new versions authorized after the original failure, and all prior runs are retained.</p>
+<h2>4.5 Historical separate-set selection of money and duration treatments</h2>
+<p>A separate primary set used master seed 41000; thirty new sets used 41001–41030.
+All selection comparisons used equal weights and p = .50. Money transformations
+were compared first, then duration under the selected money treatment. The
+criterion used applicant-averaged scaled absolute errors, with transportation
+excluded because it has no scaled width and its grant is exactly its ticket cost.
+The noise floor was the sample SD of the thirty paired mean gaps. Each challenger
+also had to pass the primary-set two-sided Wilcoxon test, with α = .025 for money
+and α = .05 for duration. Applicants, not a pooled stack of replicated IDs, were
+the paired units. All-zero differences would give p = 1.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Comparison</th>
+<th>Mean scaled improvement</th>
+<th>Noise-floor SD</th>
+<th>Wilcoxon p</th>
+<th>Passes both</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Log versus plain</td>
+<td class="numeric">0.001083</td>
+<td class="numeric">0.002761</td>
+<td class="numeric">0.268</td>
+<td class="numeric">False</td>
+</tr>
+<tr>
+<td>Fuzzy versus plain</td>
+<td class="numeric">0.002880</td>
+<td class="numeric">0.002999</td>
+<td class="numeric">0.849</td>
+<td class="numeric">False</td>
+</tr>
+<tr>
+<td>Rank versus categorical duration</td>
+<td class="numeric">0.000394</td>
+<td class="numeric">0.001464</td>
+<td class="numeric">0.195</td>
+<td class="numeric">False</td>
+</tr>
+</tbody></table>
+<p>The retained settings are <strong>plain money scaling</strong> and <strong>categorical duration</strong>. Failure to pass is not proof of equivalent methods; it means the fixed implementation criterion did not justify replacing the baseline.</p>
+<p>For transparency, these are medians of the query-specific reference-pool income quartiles on the separate primary set. Each actual query used its own eligible pool. The signed percentage differences compare Q2 with the food edge and Q3 with the poverty edge.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Type</th>
+<th>Q1 ₱</th>
+<th>Q2 ₱</th>
+<th>Q3 ₱</th>
+<th>Q2–food edge %</th>
+<th>Q3–poverty edge %</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cash Relief Assistance</td>
+<td class="numeric">24,900.00</td>
+<td class="numeric">46,950.00</td>
+<td class="numeric">83,300.00</td>
+<td class="numeric">-14.89</td>
+<td class="numeric">5.71</td>
+</tr>
+<tr>
+<td>Educational</td>
+<td class="numeric">16,300.00</td>
+<td class="numeric">43,900.00</td>
+<td class="numeric">77,700.00</td>
+<td class="numeric">-20.42</td>
+<td class="numeric">-1.40</td>
+</tr>
+<tr>
+<td>Food Assistance</td>
+<td class="numeric">17,325.00</td>
+<td class="numeric">44,600.00</td>
+<td class="numeric">80,200.00</td>
+<td class="numeric">-19.15</td>
+<td class="numeric">1.77</td>
+</tr>
+<tr>
+<td>Funeral</td>
+<td class="numeric">12,850.00</td>
+<td class="numeric">40,750.00</td>
+<td class="numeric">71,400.00</td>
+<td class="numeric">-26.13</td>
+<td class="numeric">-9.39</td>
+</tr>
+<tr>
+<td>Medical</td>
+<td class="numeric">18,525.00</td>
+<td class="numeric">43,300.00</td>
+<td class="numeric">86,625.00</td>
+<td class="numeric">-21.50</td>
+<td class="numeric">9.93</td>
+</tr>
+<tr>
+<td>Transportation</td>
+<td class="numeric">13,150.00</td>
+<td class="numeric">33,200.00</td>
+<td class="numeric">81,700.00</td>
+<td class="numeric">-39.81</td>
+<td class="numeric">3.68</td>
+</tr>
+</tbody></table>
+<p>Fuzzy membership used linear low/middle/high memberships anchored at these
+quartiles, with similarity equal to one minus half their L1 distance. Coincident
+quartiles triggered a recorded plain-range fallback. These are explicitly
+documented implementation choices, not formulas supplied verbatim in the paper.</p>
+<h2>4.6 Original fixed reviewed-case test before correction</h2>
+<p>For cost-bearing cases, retrieval combines the five recorded grant-to-cost ratios
+by their median and applies it to the query&#39;s own cost. Direct food/cash amounts
+are combined by their median. The baseline uses the same-purpose eligible pool
+with the same exclusions. The following p = .50 results are descriptive by type;
+the success criterion is the pooled 36-case peso comparison, not a type-specific
+or scaled-error substitute.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Type</th>
+<th>Cases</th>
+<th>Retrieval MAE ₱</th>
+<th>Purpose-baseline MAE ₱</th>
+<th>Reduction %</th>
+<th>Scaled MAE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cash Relief Assistance</td>
+<td class="numeric">5</td>
+<td class="numeric">590.00</td>
+<td class="numeric">520.00</td>
+<td class="numeric">-13.46</td>
+<td class="numeric">0.065556</td>
+</tr>
+<tr>
+<td>Educational</td>
+<td class="numeric">5</td>
+<td class="numeric">1,116.86</td>
+<td class="numeric">1,068.97</td>
+<td class="numeric">-4.48</td>
+<td class="numeric">0.248191</td>
+</tr>
+<tr>
+<td>Food Assistance</td>
+<td class="numeric">4</td>
+<td class="numeric">325.00</td>
+<td class="numeric">512.50</td>
+<td class="numeric">36.59</td>
+<td class="numeric">0.162500</td>
+</tr>
+<tr>
+<td>Funeral</td>
+<td class="numeric">8</td>
+<td class="numeric">1,648.39</td>
+<td class="numeric">2,612.43</td>
+<td class="numeric">36.90</td>
+<td class="numeric">0.082419</td>
+</tr>
+<tr>
+<td>Medical</td>
+<td class="numeric">14</td>
+<td class="numeric">3,251.16</td>
+<td class="numeric">1,222.94</td>
+<td class="numeric">-165.85</td>
+<td class="numeric">0.055393</td>
+</tr>
+<tr>
+<td>Transportation</td>
+<td class="numeric">4</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+<td class="numeric">N/A</td>
+</tr>
+</tbody></table>
+<p>The four transportation cases have zero error by construction. They are reported separately and do not count toward the main test. Plain and selected settings coincide in this run. Results across all conditions are:</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Household condition</th>
+<th>36-case MAE ₱</th>
+<th>Purpose-baseline MAE ₱</th>
+<th>Reduction %</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>p00</td>
+<td class="numeric">2,205.44</td>
+<td class="numeric">1,805.07</td>
+<td class="numeric">-22.18</td>
+</tr>
+<tr>
+<td>p25</td>
+<td class="numeric">2,096.81</td>
+<td class="numeric">1,361.40</td>
+<td class="numeric">-54.02</td>
+</tr>
+<tr>
+<td>p50</td>
+<td class="numeric">1,903.82</td>
+<td class="numeric">1,333.76</td>
+<td class="numeric">-42.74</td>
+</tr>
+<tr>
+<td>p75</td>
+<td class="numeric">1,542.06</td>
+<td class="numeric">1,127.28</td>
+<td class="numeric">-36.79</td>
+</tr>
+</tbody></table>
+<p><img src="chapter-4-main-test.png" alt="Fixed main test"></p>
+<h3>Medical error diagnosis</h3>
+<p>Medical assistance accounts for 14 of 36 cases (38.9%) but <strong>66.4% of total retrieval absolute error</strong>. Its retrieval MAE is ₱3,251.16 against ₱1,222.94 for the purpose baseline, a −165.85% reduction. Medical is the source of the aggregate failure: the remaining 22 cases have retrieval MAE <strong>₱1,046.43</strong> against <strong>₱1,404.29</strong>, a <strong>25.48% reduction</strong>.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Diagnostic subset</th>
+<th>Cases</th>
+<th>Retrieval MAE ₱</th>
+<th>Purpose-baseline MAE ₱</th>
+<th>Reduction %</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>All non-transport cases — fixed main test</td>
+<td class="numeric">36</td>
+<td class="numeric">1,903.82</td>
+<td class="numeric">1,333.76</td>
+<td>−42.74</td>
+</tr>
+<tr>
+<td>Medical</td>
+<td class="numeric">14</td>
+<td class="numeric">3,251.16</td>
+<td class="numeric">1,222.94</td>
+<td>−165.85</td>
+</tr>
+<tr>
+<td>Non-medical non-transport — post-result diagnosis</td>
+<td class="numeric">22</td>
+<td class="numeric">1,046.43</td>
+<td class="numeric">1,404.29</td>
+<td class="numeric">25.48</td>
+</tr>
+</tbody></table>
+<p>The 22-case subset exceeds 20% descriptively; it is not a replacement success test and does not change the failed 36-case conclusion. Cash relief and education individually remain below their baselines. The diagnosis concerns the aggregate concentration of error, not a claim that every non-medical type passes.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Assistance type</th>
+<th>Purpose and base share or direct amount</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Medical</td>
+<td>Hospital bill .2075; dialysis .3556; chemotherapy .3556; assistive device .3556; medicines .8046; laboratory .9052</td>
+</tr>
+<tr>
+<td>Funeral</td>
+<td>Funeral expenses and cadaver transfer: .2903 each</td>
+</tr>
+<tr>
+<td>Educational</td>
+<td>Allowance, school fees and school supplies: .6105 each</td>
+</tr>
+<tr>
+<td>Food assistance</td>
+<td>Single purpose, food subsidy: direct base ₱3,857.14</td>
+</tr>
+<tr>
+<td>Cash relief</td>
+<td>Single purpose, other needs: direct base ₱4,400.00</td>
+</tr>
+<tr>
+<td>Transportation</td>
+<td>Both purposes: 1.0000; exact cost with no household adjustment</td>
+</tr>
+</tbody></table>
+<p>Medical is the only type with different purpose-specific base shares, spanning .2075–.9052. The baseline is conditioned on purpose, while retrieval pools by type and gives purpose one of 39 equal nominal weights (1/39, about 2.6%; the effective share depends on the available-field denominator). A medicines query can therefore retrieve hospital-bill cases with a much lower base share. This is the mechanism supported by the error concentration and the known rule; the existing comparisons do not isolate its causal contribution from every other generator limitation.</p>
+<p>The separate case-base experiment corroborates the role of purpose: its mean learned weight is 2.9797, compared with 1.5750 for the next field. At p = .50, medical&#39;s applicant-averaged reduction changes from −340.42% under equal weights to −20.36% under learned weights, the largest type-specific improvement. These are case-base results, not the 14 reviewed-case results above.</p>
+<h3>Retrieval error across household-signal levels</h3>
+<p>Appendix 4A also supports an ordered comparison across the four planted household-signal conditions. The following figures are case-base results: errors are first averaged within applicant and assistance type across the 1,000 events, then across applicants in that type. They are distinct from the fixed 36 reviewed-case test. Each percentage uses its own condition-specific purpose baseline, which changes because the generated amounts change with the condition. Transportation is excluded here because its error is zero by construction.</p>
+<p><strong>Equal weights — reduction against the matching purpose baseline (%)</strong></p>
+<table class="compact">
+<thead>
+<tr>
+<th>Assistance type</th>
+<th>p00</th>
+<th>p25</th>
+<th>p50</th>
+<th>p75</th>
+<th>Strictly increasing</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cash relief</td>
+<td class="numeric">-14.28</td>
+<td class="numeric">-10.41</td>
+<td class="numeric">+0.66</td>
+<td class="numeric">+10.02</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Educational</td>
+<td class="numeric">-3.33</td>
+<td class="numeric">-1.83</td>
+<td class="numeric">+9.89</td>
+<td class="numeric">+16.59</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Food</td>
+<td class="numeric">-13.50</td>
+<td class="numeric">-12.94</td>
+<td class="numeric">-1.35</td>
+<td class="numeric">+23.02</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Funeral</td>
+<td class="numeric">-7.31</td>
+<td class="numeric">-5.15</td>
+<td class="numeric">+3.47</td>
+<td class="numeric">+14.81</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Medical</td>
+<td class="numeric">-360.43</td>
+<td class="numeric">-387.41</td>
+<td class="numeric">-340.42</td>
+<td class="numeric">-332.69</td>
+<td>No</td>
+</tr>
+</tbody></table>
+<p>For each of the four non-medical types, the equal-weight reduction increases at every step as the household share of variation rises from 0% to 75%. All four trail their purpose baseline at p00, where there is no household signal, and all four exceed it at p75. This dose-response pattern is consistent with retrieval responding to planted household information where the medical purpose-share mismatch is absent. Medical remains far below its baseline throughout; its equal-weight sequence is non-monotonic, rather than literally constant or evidence of statistical equivalence.</p>
+<p><strong>Learned weights — reduction against the matching purpose baseline (%)</strong></p>
+<table class="compact">
+<thead>
+<tr>
+<th>Assistance type</th>
+<th>p00</th>
+<th>p25</th>
+<th>p50</th>
+<th>p75</th>
+<th>Strictly increasing</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cash relief</td>
+<td class="numeric">-12.28</td>
+<td class="numeric">-15.09</td>
+<td class="numeric">+2.31</td>
+<td class="numeric">+13.35</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Educational</td>
+<td class="numeric">-4.51</td>
+<td class="numeric">-16.58</td>
+<td class="numeric">+5.04</td>
+<td class="numeric">+12.30</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Food</td>
+<td class="numeric">-24.08</td>
+<td class="numeric">-3.75</td>
+<td class="numeric">+2.54</td>
+<td class="numeric">+16.53</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Funeral</td>
+<td class="numeric">-11.81</td>
+<td class="numeric">-4.43</td>
+<td class="numeric">+13.06</td>
+<td class="numeric">+14.44</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Medical</td>
+<td class="numeric">-35.11</td>
+<td class="numeric">-27.08</td>
+<td class="numeric">-20.36</td>
+<td class="numeric">+2.21</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<p>Under learned weights, medical improves monotonically from −35.11% at p00 through −27.08% and −20.36% to +2.21% at p75. This is consistent with emphasizing purpose reducing an obstacle to observing household-signal response. It does not isolate the effect of purpose from all other learned-weight changes. Food and funeral also increase monotonically. Cash relief and education dip at p25, so the learned-weight results must not be described as monotonic for every type.</p>
+<p>These findings are compatible with Section 4.8. The weight search minimizes an applicant-averaged scaled-error objective across the whole case base and assigns its largest mean weight to purpose. Medical dominates the unscaled peso error under equal weights, but that alone does not establish its influence on the scaled optimization objective. The scaled-error breakdown below addresses that separate question using the saved errors. The observed weights and error changes support purpose as a major lever used by the search. They do not demonstrate additional household-pattern recovery by the search. Retrieval can nevertheless respond to household signal through fields already included under equal weights, as the non-medical ordered comparisons show. What the search emphasizes and what retrieval responds to are different findings.</p>
+<p>There are only four points per type. This is a descriptive pattern, not a formal trend test; no statistical significance, fitted trend line or causal proof is claimed. These comparisons do not isolate the mechanism from the generator&#39;s other limitations. The main condition remains p = .50, fixed before evaluation. The better p75 results do not justify choosing a different main condition. The fixed reviewed-case test still failed at −42.74%, as Section 4.1 reports; this case-base analysis explains aspects of that result and does not overturn or replace it. It supports a household-signal response in the four non-medical types and a purpose-confusion explanation for medical that was not isolated in the original comparison; the post-test follow-ups are reported in Section 4.14.</p>
+<h3>Scaled-error contribution and the observed trade-off</h3>
+<p>The scaled results allow a more direct check of medical&#39;s contribution. Multiplying each type&#39;s mean scaled error by its applicant count gives the approximate proxy below. Applicants appearing in more than one type are counted in more than one row, so that proxy is not a partition of the actual applicant-averaged objective.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Type</th>
+<th>Applicants in type</th>
+<th>Equal scaled error</th>
+<th>Overlapping-row proxy share %</th>
+<th>Exact held-out objective share %</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Medical</td>
+<td class="numeric">461</td>
+<td class="numeric">0.130962</td>
+<td class="numeric">41.4</td>
+<td class="numeric">43.34</td>
+</tr>
+<tr>
+<td>Food Assistance</td>
+<td class="numeric">80</td>
+<td class="numeric">0.423750</td>
+<td class="numeric">23.2</td>
+<td class="numeric">22.14</td>
+</tr>
+<tr>
+<td>Educational</td>
+<td class="numeric">78</td>
+<td class="numeric">0.307455</td>
+<td class="numeric">16.4</td>
+<td class="numeric">16.25</td>
+</tr>
+<tr>
+<td>Funeral</td>
+<td class="numeric">143</td>
+<td class="numeric">0.122569</td>
+<td class="numeric">12.0</td>
+<td class="numeric">11.61</td>
+</tr>
+<tr>
+<td>Cash Relief Assistance</td>
+<td class="numeric">98</td>
+<td class="numeric">0.102381</td>
+<td class="numeric">6.9</td>
+<td class="numeric">6.67</td>
+</tr>
+</tbody></table>
+<p>The exact column is reconstructed from the saved p = .50 held-out event errors, with no retrieval or fitting rerun. For each applicant a, divide each non-transport event error by that applicant&#39;s count of non-transport events; then sum those fractions by type and divide by the 794 applicants with a defined scaled error (844 total applicant IDs minus 50 transportation-only applicants, whose events have no scaled width). The contributions sum to the recorded equal-weight objective of 0.167927. Medical contributes 0.072774, or <strong>43.34%</strong>, the largest single block; the overlapping-row approximation is <strong>41.4%</strong>. These are the held-out errors under the fitted folds, not the training objective values evaluated inside each search. The same applicant-averaging convention underlies both, but the eligible reference pools differ.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Type</th>
+<th>Equal scaled error</th>
+<th>Learned scaled error</th>
+<th>Learned minus equal</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Medical</td>
+<td class="numeric">0.130962</td>
+<td class="numeric">0.080893</td>
+<td class="numeric">-0.050069</td>
+</tr>
+<tr>
+<td>Food Assistance</td>
+<td class="numeric">0.423750</td>
+<td class="numeric">0.407500</td>
+<td class="numeric">-0.016250</td>
+</tr>
+<tr>
+<td>Educational</td>
+<td class="numeric">0.307455</td>
+<td class="numeric">0.324025</td>
+<td class="numeric">+0.016570</td>
+</tr>
+<tr>
+<td>Funeral</td>
+<td class="numeric">0.122569</td>
+<td class="numeric">0.110388</td>
+<td class="numeric">-0.012181</td>
+</tr>
+<tr>
+<td>Cash Relief Assistance</td>
+<td class="numeric">0.102381</td>
+<td class="numeric">0.100680</td>
+<td class="numeric">-0.001701</td>
+</tr>
+</tbody></table>
+<p>Medical has the largest decrease in per-type applicant-averaged scaled error, about 0.0501, roughly 3.1 times the next largest decrease (food, about 0.0163). Educational error instead rises by about 0.0166. The exact objective decomposition likewise assigns the largest reduction to medical: its contribution falls by 0.027421, while education&#39;s rises by 0.000915. The shared weights therefore produce an observed trade-off: substantially lower medical error accompanies higher educational error.</p>
+<p>This is consistent with purpose being a lever used by the search and medical being where that lever paid off. It describes the outcome of the learned weights; it does not isolate the optimizer&#39;s internal reasons, prove that education was deliberately sacrificed, or establish that purpose was its only useful lever. Section 4.8&#39;s household-recovery conclusion remains unchanged.</p>
+<h2>4.7 Historical five-fold learned weights and thirty-set evidence</h2>
+<p>Applicant IDs were assigned to five fixed folds. Each fold&#39;s shared 39 weights
+were fitted only on the other four folds, using applicant leave-one-out retrieval
+inside that training pool and 200 objective evaluations. All weights were
+nonnegative and summed to 39. Held-out applicants retrieved from all other
+case-base applicants, including other applicants assigned to their test fold;
+the equal-weight comparator used that identical reference pool. Settings selected
+on the separate set were held fixed. No reviewed case selected weights or budget.</p>
+<p>Thirty weight replicates used master seeds 51001–51030. The same two-part evidence
+criterion was applied with α = .05 per specified condition. The paired test used
+the primary case-base applicants. The following peso MAEs first average the
+non-transport event errors within each applicant, then average applicants; scaled
+errors similarly average each event&#39;s error divided by its prescribed band width.
+This differs from an event-weighted pooled MAE when applicants have repeat visits.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Condition</th>
+<th>Equal MAE ₱</th>
+<th>Learned MAE ₱</th>
+<th>Paired mean peso gain</th>
+<th>Purpose baseline ₱</th>
+<th>30-set scaled gain</th>
+<th>SD</th>
+<th>Wilcoxon p</th>
+<th>Passes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>p00</td>
+<td class="numeric">5,727.88</td>
+<td class="numeric">2,277.72</td>
+<td class="numeric">3,450.17</td>
+<td class="numeric">1,816.74</td>
+<td class="numeric">0.023033</td>
+<td class="numeric">0.005916</td>
+<td class="numeric">4.48e-08</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>p25</td>
+<td class="numeric">6,104.25</td>
+<td class="numeric">2,195.81</td>
+<td class="numeric">3,908.43</td>
+<td class="numeric">1,860.05</td>
+<td class="numeric">0.022640</td>
+<td class="numeric">0.006526</td>
+<td class="numeric">1.14e-05</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>p50</td>
+<td class="numeric">5,979.23</td>
+<td class="numeric">2,103.78</td>
+<td class="numeric">3,875.45</td>
+<td class="numeric">1,904.46</td>
+<td class="numeric">0.023645</td>
+<td class="numeric">0.005888</td>
+<td class="numeric">1.82e-07</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>p75</td>
+<td class="numeric">6,142.67</td>
+<td class="numeric">1,904.88</td>
+<td class="numeric">4,237.79</td>
+<td class="numeric">2,032.60</td>
+<td class="numeric">0.025527</td>
+<td class="numeric">0.005086</td>
+<td class="numeric">2e-06</td>
+<td class="numeric">True</td>
+</tr>
+</tbody></table>
+<p>All four implemented signed-rank calculations were independently cross-checked
+against SciPy 1.17.1 using the same two-sided asymptotic, tie-corrected convention.
+SciPy was used for verification, not as a hidden optimizer dependency. The
+condition-wise tests follow the stated protocol; no additional family-wide claim
+across all conditions or descriptive k values is asserted.</p>
+<p>The p = 0 improvement over equal weights is especially important for interpretation.
+Purpose still determines base shares in that control, while household adjustment
+is disabled. Learned weights can improve by emphasizing purpose and suppressing
+irrelevant variation. Therefore this comparison alone cannot show that the search
+recovered the household relationship. The purpose baseline remains the relevant
+no-household comparison; the primary pooled learned peso error remains above it.
+Any small subgroup fluctuation below that baseline is not, on its own, proof of
+leakage or of a real household effect.</p>
+<h3>Gain across household-signal levels</h3>
+<p>The thirty-set scaled gains are .023033, .022640, .023645 and .025527 at p = 0, .25, .50 and .75. Their spread is <strong>0.002887</strong>, smaller than the mean replicate SD of <strong>0.005854</strong>. The gain is descriptively flat rather than showing a clear increase with household signal. This range-to-SD comparison is a descriptive diagnostic, not a formal trend or equivalence test. Together with improvement at p = 0 and the weight-mass results below, it identifies purpose recovery without detectable household-pattern recovery at any tested signal level under this implementation and evidence. It does not prove that no household information could be recovered by any method.</p>
+<h2>4.8 Historical weight recovery and reference gap</h2>
+<p>The written household score uses 28 matching fields. Purpose also determines the
+base share, so the amount-rule reference includes 29 matching fields. It assigns
+equal positive weight to those 29 and zero to the other matching fields. Cost is
+not a matching field and cannot enter this reference. This is a fixed nominal
+rule-field diagnostic across conditions; p = 0 disables the household term.
+Both purpose-inclusive and household-only weight masses are shown to avoid
+mistaking purpose recovery for household recovery. The reference is not a proven
+optimum. A negative learned-minus-reference gap is possible and is not an error.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Condition</th>
+<th>Mean rule-field weight %</th>
+<th>Mean household-only weight %</th>
+<th>Mean zero-rule fields in top 10</th>
+<th>Learned scaled error</th>
+<th>Reference scaled error</th>
+<th>Learned minus reference</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>p00</td>
+<td class="numeric">79.45</td>
+<td class="numeric">71.45</td>
+<td class="numeric">2.20</td>
+<td class="numeric">0.156962</td>
+<td class="numeric">0.176583</td>
+<td class="numeric">-0.019620</td>
+</tr>
+<tr>
+<td>p25</td>
+<td class="numeric">76.87</td>
+<td class="numeric">67.98</td>
+<td class="numeric">2.60</td>
+<td class="numeric">0.145766</td>
+<td class="numeric">0.167306</td>
+<td class="numeric">-0.021540</td>
+</tr>
+<tr>
+<td>p50</td>
+<td class="numeric">79.25</td>
+<td class="numeric">71.61</td>
+<td class="numeric">1.80</td>
+<td class="numeric">0.138103</td>
+<td class="numeric">0.156741</td>
+<td class="numeric">-0.018638</td>
+</tr>
+<tr>
+<td>p75</td>
+<td class="numeric">77.28</td>
+<td class="numeric">69.12</td>
+<td class="numeric">2.00</td>
+<td class="numeric">0.125454</td>
+<td class="numeric">0.145463</td>
+<td class="numeric">-0.020009</td>
+</tr>
+</tbody></table>
+<h3>Household weight mass did not increase</h3>
+<table class="compact">
+<thead>
+<tr>
+<th>p = .50 household-only diagnostic</th>
+<th>Weight mass</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Equal weights on the 28 household-score fields</td>
+<td><strong>71.79%</strong></td>
+</tr>
+<tr>
+<td>Learned weights on the same fields</td>
+<td><strong>71.61%</strong></td>
+</tr>
+<tr>
+<td>Change</td>
+<td><strong>−0.18 percentage points</strong></td>
+</tr>
+</tbody></table>
+<p>Equal weights allocate 74.36% to all 29 nominal rule fields including purpose. The larger learned rule-field mass is driven chiefly by purpose, not increased household mass. Household-only mass is also below the equal-weight share at the other three signal levels in the table. <strong>The weight search recovers purpose and does not detectably recover the household pattern at any tested signal level.</strong> This is a finding about the present search and diagnostics; aggregate weight mass alone cannot rule out every redistribution among household fields.</p>
+<p>Largest mean weights at p = .50 (all 39 weights and every candidate trace are retained in the evidence archive):</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Mean weight</th>
+<th>In nominal amount rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>purpose_of_assistance</td>
+<td class="numeric">2.9797</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>employed_members</td>
+<td class="numeric">1.5750</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>ext_mss_discount</td>
+<td class="numeric">1.4516</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>ext_senior_citizen_discount</td>
+<td class="numeric">1.3562</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>total_income_past_6_months</td>
+<td class="numeric">1.3125</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>vuln_unstable_employment</td>
+<td class="numeric">1.2688</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>support_employer</td>
+<td class="numeric">1.2625</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>seasonal_members</td>
+<td class="numeric">1.2000</td>
+<td class="numeric">False</td>
+</tr>
+<tr>
+<td>crisis_disablement</td>
+<td class="numeric">1.1812</td>
+<td class="numeric">True</td>
+</tr>
+<tr>
+<td>ext_philhealth</td>
+<td class="numeric">1.1500</td>
+<td class="numeric">True</td>
+</tr>
+</tbody></table>
+<p>Each search stopped at its fixed budget, not a claim of convergence to an optimum. The trace reports the incumbent after each candidate evaluation.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Fold</th>
+<th>Initial scaled objective</th>
+<th>Final scaled objective</th>
+<th>Last accepted evaluation</th>
+<th>Accepted moves</th>
+</tr>
+</thead>
+<tbody><tr>
+<td class="numeric">1</td>
+<td class="numeric">0.172210</td>
+<td class="numeric">0.133434</td>
+<td class="numeric">178</td>
+<td class="numeric">25</td>
+</tr>
+<tr>
+<td class="numeric">2</td>
+<td class="numeric">0.165831</td>
+<td class="numeric">0.128744</td>
+<td class="numeric">112</td>
+<td class="numeric">26</td>
+</tr>
+<tr>
+<td class="numeric">3</td>
+<td class="numeric">0.163281</td>
+<td class="numeric">0.122800</td>
+<td class="numeric">199</td>
+<td class="numeric">32</td>
+</tr>
+<tr>
+<td class="numeric">4</td>
+<td class="numeric">0.171023</td>
+<td class="numeric">0.129934</td>
+<td class="numeric">184</td>
+<td class="numeric">30</td>
+</tr>
+<tr>
+<td class="numeric">5</td>
+<td class="numeric">0.165737</td>
+<td class="numeric">0.127070</td>
+<td class="numeric">194</td>
+<td class="numeric">26</td>
+</tr>
+</tbody></table>
+<p><img src="chapter-4-convergence.png" alt="Search objective traces"></p>
+<h2>4.9 Historical sensitivity to the number of retrieved cases</h2>
+<p>The following applicant-averaged scaled errors vary k while keeping the selected
+settings and learned weights fixed. They are descriptive, with no retuning and
+no additional superiority claim. The main test and fitting objective remain k=5.</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>k</th>
+<th>Equal scaled MAE</th>
+<th>Learned scaled MAE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>p00</td>
+<td class="numeric">3</td>
+<td class="numeric">0.189847</td>
+<td class="numeric">0.164333</td>
+</tr>
+<tr>
+<td>p00</td>
+<td class="numeric">5</td>
+<td class="numeric">0.182232</td>
+<td class="numeric">0.156962</td>
+</tr>
+<tr>
+<td>p00</td>
+<td class="numeric">7</td>
+<td class="numeric">0.179067</td>
+<td class="numeric">0.155340</td>
+</tr>
+<tr>
+<td>p00</td>
+<td class="numeric">10</td>
+<td class="numeric">0.173872</td>
+<td class="numeric">0.149234</td>
+</tr>
+<tr>
+<td>p25</td>
+<td class="numeric">3</td>
+<td class="numeric">0.183085</td>
+<td class="numeric">0.155071</td>
+</tr>
+<tr>
+<td>p25</td>
+<td class="numeric">5</td>
+<td class="numeric">0.171892</td>
+<td class="numeric">0.145766</td>
+</tr>
+<tr>
+<td>p25</td>
+<td class="numeric">7</td>
+<td class="numeric">0.164606</td>
+<td class="numeric">0.138290</td>
+</tr>
+<tr>
+<td>p25</td>
+<td class="numeric">10</td>
+<td class="numeric">0.160377</td>
+<td class="numeric">0.133942</td>
+</tr>
+<tr>
+<td>p50</td>
+<td class="numeric">3</td>
+<td class="numeric">0.174302</td>
+<td class="numeric">0.144091</td>
+</tr>
+<tr>
+<td>p50</td>
+<td class="numeric">5</td>
+<td class="numeric">0.167927</td>
+<td class="numeric">0.138103</td>
+</tr>
+<tr>
+<td>p50</td>
+<td class="numeric">7</td>
+<td class="numeric">0.159000</td>
+<td class="numeric">0.137273</td>
+</tr>
+<tr>
+<td>p50</td>
+<td class="numeric">10</td>
+<td class="numeric">0.157264</td>
+<td class="numeric">0.133901</td>
+</tr>
+<tr>
+<td>p75</td>
+<td class="numeric">3</td>
+<td class="numeric">0.162276</td>
+<td class="numeric">0.131079</td>
+</tr>
+<tr>
+<td>p75</td>
+<td class="numeric">5</td>
+<td class="numeric">0.153894</td>
+<td class="numeric">0.125454</td>
+</tr>
+<tr>
+<td>p75</td>
+<td class="numeric">7</td>
+<td class="numeric">0.150651</td>
+<td class="numeric">0.121224</td>
+</tr>
+<tr>
+<td>p75</td>
+<td class="numeric">10</td>
+<td class="numeric">0.148152</td>
+<td class="numeric">0.119983</td>
+</tr>
+</tbody></table>
+<h2>4.10 Historical computational performance and reproducibility</h2>
+<p>Retrieval timing used three warmups and eleven timed calls for one fixed reviewed
+query per assistance type, starting from the complete 1,000-event reference set.
+These are function timings, not end-to-end network latency or a population-wide
+latency estimate. Memory is the process working set after importing the backend
+and loading the default CSV, measured in five fresh processes, not peak memory.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Type</th>
+<th>Query</th>
+<th>Median retrieval ms</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cash Relief Assistance</td>
+<td>J07</td>
+<td class="numeric">2.595</td>
+</tr>
+<tr>
+<td>Educational</td>
+<td>J02</td>
+<td class="numeric">2.127</td>
+</tr>
+<tr>
+<td>Food Assistance</td>
+<td>J06</td>
+<td class="numeric">2.120</td>
+</tr>
+<tr>
+<td>Funeral</td>
+<td>J04</td>
+<td class="numeric">3.771</td>
+</tr>
+<tr>
+<td>Medical</td>
+<td>J01</td>
+<td class="numeric">11.503</td>
+</tr>
+<tr>
+<td>Transportation</td>
+<td>J08</td>
+<td class="numeric">2.219</td>
+</tr>
+</tbody></table>
+<p>Median backend working set was 49.24 MiB.
+The full five-fold, four-condition weight evaluation had median runtime
+38.29 seconds across three deterministic
+repetitions (36.11, 38.56, 38.29
+seconds). The repeated learned outcomes and weights were identical. This time
+includes distance construction, search, held-out evaluation and trace writes;
+it excludes the thirty replicate runs, input generation, final document drafting,
+and the later reporting-only reference/count supplement.</p>
+<p>The recorded machine used 12th Gen Intel(R) Core(TM) i7-12700H,
+15.63 GiB reported physical memory,
+Microsoft Windows 11 Home Single Language version 10.0.26200, and Python
+3.12.10. The tested frontend used React 19.3.0
+and Vite 7.3.6. Exact installed Python versions and
+the frontend lock file accompany the run. The configured repository is
+<code>https://github.com/HenriDillo/aics-case-based-retrieval.git</code>; its private status was authenticated and verified on
+19 October 2026. These historical records do not establish approval of the amendments.</p>
+<h2>4.11 Prototype and review status</h2>
+<p>The prototype still loads the historical reconciled p = .50 synthetic reference CSV once, retrieves
+five same-type cases using equal weights, and displays their circumstances,
+documented costs and generated grants. Browser checks across all six assistance types covered retrieval,
+numeric grant display, comparison navigation and mobile overflow. The production
+frontend build passed. The corrected offline datasets and experimental purpose pools or learned weights have not been deployed to the prototype. Software verification establishes implementation behavior;
+it does not change the failed research success criterion.</p>
+<p>The printable CSV-driven packet fixes funds at ₱250,000 and includes populated
+diagnoses for every assistance type. All forty supplied reviewed cases and all
+their nonempty displayed values were checked. The packet has two printable pages
+per case; the original reviewed DOCX remains unchanged and available separately.
+No private pair key is included in the reviewer packet.</p>
+<p>No social worker participated in the study; no UAT, SUS or practitioner answer evaluation was conducted. No new DSWD response to this completed run or packet has been supplied or verified.
+The earlier consultations described in Chapters 1–3 are not represented as approval
+of these new results. The record therefore cannot claim that the new packet was
+submitted, accepted, rejected, or ignored. The four review topics remain field
+ranges, assistance-type mix, amount spread and implausible combinations. Actual
+feedback can be added with its date and source when available.</p>
+<h2>4.12 Interpretation and limitations</h2>
+<p>The fixed reviewed-case test does not support the proposed retrieval method&#39;s
+success on this generated data under its fixed peso-error criterion.
+Separately, learned weights improve over equal weights within the implemented
+synthetic experiments. The control result and the large role of purpose limit
+an interpretation based on household-pattern recovery. Statistical improvement
+in scaled error is also distinct from passing the pooled peso test.</p>
+<p>The data-generating mechanism includes assumed costs, a flattened type mix,
+chosen missingness, historical income thresholds and a known amount rule. Its
+source scoring treats some unknown inputs as absence or zero, while retrieval
+does not impute them. These choices restrict external validity. The forty-case
+test has small type-specific counts, so those rows should not be treated as
+precise type-level estimates. The fixed greedy search budget is reproducible but
+does not guarantee globally best weights. No result here estimates the accuracy,
+fairness or operational usefulness of decisions on actual DSWD applicants.</p>
+<p>The complete evidence retains all seeds, fold assignments, event predictions,
+applicant errors, comparison counts, candidate traces and source hashes. Failed
+results and unverified external feedback remain visible. The chapter is ready
+for the research team&#39;s substantive review, not presented as an approved thesis
+chapter or evidence of successful real-world deployment.</p>
+<h3>Post-test correction and reporting obligation</h3>
+<p>The historical amount rule treated some unknowns as absence or zero while Gower omitted unknown comparison fields. This defect motivated the correction below. The 19 October request to wait for adviser agreement was superseded by Henri’s explicit 20 October instruction to proceed without asking Ma’am Grace first. The original failed outcome remains part of the record. The correction does not make this a new independent confirmation: it and the pool amendment were motivated by diagnoses made after seeing the failure. The same forty cases and existing case bases are reused.</p>
+<h2>4.13 Post-test correction and execution checks</h2>
+<p>The decision and specification were recorded on 20 October 2026 at 20:13:53 PHT before corrected outcomes were generated. Both amendments were made after the original main-test failure. The current v27 manuscript still specifies same-type retrieval; restricting references to matching assistance type and intake purpose is an explicitly disclosed amendment to rules eight and eleven in Section 3.2.2 and to the formal reference-set definition in Section 3.3. Ranges, constants and, where applicable, fuzzy quartiles are fitted on that same eligible reference pool. All events of the query applicant and the supplied reviewed-case partner remain excluded. Outcomes never enter distance calculation. A separate methodology-amendment note records these changes; the supplied v27 DOCX remains unchanged.</p>
+<p>The correction retains the 28 household-rule inputs, their coefficients and contribution bounds. Let tᵢ be an observed field contribution with fixed bounds lᵢ and uᵢ, L = Σ lᵢ and A = Σ(uᵢ − lᵢ), summing over all rule fields. The corrected raw score is:</p>
+<p><strong>S = L + A × [Σ observed (tᵢ − lᵢ) / Σ observed (uᵢ − lᵢ)].</strong></p>
+<p>An unknown field contributes to neither observed sum. Explicit No, numeric zero and a recorded empty sub-category remain observed. The two sub-category terms share one availability mask and range [0, 1.3]. Income retains its existing thresholds and single 0, 0.5 or 1 contribution. An all-unknown record stops generation; no such record occurred. The construction preserves complete raw scores and their original bounds. The observed-range fraction is a property of this chosen synthetic score, not a proof of unbiased missing-data estimation; omitting an unknown Gower comparison term is an analogy, not an identity of formulas.</p>
+<p>Calibration uses each existing 1,000-event base once and is reused for its forty fixed test cases. Amount/noise seeds, noise payloads, planted-signal levels p = 0, .25, .50, .75, log spread, rounding, floors and ceilings remain fixed. The same 31 input sets are used: the primary set and thirty replications with master seeds 51001–51030. No intake, missingness mask, cost, type mix or pair definition is resampled. The p = 0 amounts remain exactly unchanged in every set, providing a control on noise/content preservation.</p>
+<p>Before correction, the actual vendor <code>check_pairs</code> passed for all four identical pairs in all existing conditions. Immediately after each corrected forty-case generation, all four pairs passed again before any retrieval or fitting. This was checked across 31 datasets × four conditions, including reversed record order. J13/J28 share unknown <code>support_relatives</code>; J11/J30 share unknown <code>ext_health_card</code>. Their corrected amounts remain equal. J01/J22 and J20/J35 also pass. All four near-pair differences remain restricted to their intended input field. These are software/rule checks, not social-worker judgments.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Calibration on primary base</th>
+<th>Historical</th>
+<th>Corrected</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Raw score mean</td>
+<td class="numeric">3.075250</td>
+<td class="numeric">3.099526</td>
+</tr>
+<tr>
+<td>Population standard deviation</td>
+<td class="numeric">1.448660</td>
+<td class="numeric">1.487216</td>
+</tr>
+</tbody></table>
+<table class="compact">
+<thead>
+<tr>
+<th>Condition</th>
+<th>Base complete changed / 545</th>
+<th>Base incomplete changed / 455</th>
+<th>Fixed complete changed / 27</th>
+<th>Fixed incomplete changed / 13</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>p00</td>
+<td class="numeric">0</td>
+<td class="numeric">0</td>
+<td class="numeric">0</td>
+<td class="numeric">0</td>
+</tr>
+<tr>
+<td>p25</td>
+<td class="numeric">189</td>
+<td class="numeric">361</td>
+<td class="numeric">7</td>
+<td class="numeric">10</td>
+</tr>
+<tr>
+<td>p50</td>
+<td class="numeric">256</td>
+<td class="numeric">369</td>
+<td class="numeric">7</td>
+<td class="numeric">11</td>
+</tr>
+<tr>
+<td>p75</td>
+<td class="numeric">270</td>
+<td class="numeric">366</td>
+<td class="numeric">9</td>
+<td class="numeric">11</td>
+</tr>
+</tbody></table>
+<p>Complete raw-score identity was checked for all 545 complete base events and 27 complete fixed cases. Changed amounts among those records arise from recalibration, not changed observed coefficients. The primary raw-score mean and spread above describe this run; they are not estimated from the fixed cases.</p>
+<h2>4.14 Both corrected pool results alongside the original failure</h2>
+<p>The main setting remains p = .50, k = 5 and equal weights. The fixed criterion remains at least 20% reduction in pooled peso MAE over the same-purpose baseline across 36 non-transport cases. The four transportation cases remain separate and have zero error by construction. The baseline is recomputed on each version’s generated outcomes, so lower absolute MAE across data versions is not itself an improvement against a fixed target.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Run</th>
+<th>Retrieval MAE ₱</th>
+<th>Baseline MAE ₱</th>
+<th>Reduction %</th>
+<th>Fixed ≥20% criterion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Original before correction</td>
+<td class="numeric">1,903.82</td>
+<td class="numeric">1,333.76</td>
+<td class="numeric">-42.74</td>
+<td>Fail</td>
+</tr>
+<tr>
+<td>Corrected type pool</td>
+<td class="numeric">1,822.82</td>
+<td class="numeric">1,222.94</td>
+<td class="numeric">-49.05</td>
+<td>Fail</td>
+</tr>
+<tr>
+<td>Corrected purpose pool</td>
+<td class="numeric">1,285.62</td>
+<td class="numeric">1,222.94</td>
+<td class="numeric">-5.13</td>
+<td>Fail</td>
+</tr>
+</tbody></table>
+<p>The corrected type-pool result does not meet the fixed 20% criterion; its maximum allowable MAE is ₱978.35. The corrected purpose-pool result does not meet the fixed 20% criterion; its maximum allowable MAE is ₱978.35. Both corrected comparisons use exactly the same corrected outcomes and baseline values; their difference isolates the retrieval-pool change within that corrected version. Neither follow-up withdraws or reclassifies the original failure.</p>
+<p><img src="chapter-4-2026-10-20-v03-main-comparison.png" alt="Original and corrected reviewed-case results"></p>
+<table class="compact">
+<thead>
+<tr>
+<th>Corrected pool</th>
+<th>Condition</th>
+<th>MAE ₱</th>
+<th>Baseline ₱</th>
+<th>Reduction %</th>
+<th>Scaled MAE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>type</td>
+<td>p00</td>
+<td class="numeric">2,205.44</td>
+<td class="numeric">1,805.07</td>
+<td class="numeric">-22.18</td>
+<td class="numeric">0.152565</td>
+</tr>
+<tr>
+<td>type</td>
+<td>p25</td>
+<td class="numeric">2,110.50</td>
+<td class="numeric">1,346.52</td>
+<td class="numeric">-56.74</td>
+<td class="numeric">0.146642</td>
+</tr>
+<tr>
+<td>type</td>
+<td>p50</td>
+<td class="numeric">1,822.82</td>
+<td class="numeric">1,222.94</td>
+<td class="numeric">-49.05</td>
+<td class="numeric">0.096986</td>
+</tr>
+<tr>
+<td>type</td>
+<td>p75</td>
+<td class="numeric">1,623.21</td>
+<td class="numeric">1,165.53</td>
+<td class="numeric">-39.27</td>
+<td class="numeric">0.110570</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p00</td>
+<td class="numeric">1,751.93</td>
+<td class="numeric">1,805.07</td>
+<td class="numeric">+2.94</td>
+<td class="numeric">0.142946</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p25</td>
+<td class="numeric">1,743.90</td>
+<td class="numeric">1,346.52</td>
+<td class="numeric">-29.51</td>
+<td class="numeric">0.142772</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p50</td>
+<td class="numeric">1,285.62</td>
+<td class="numeric">1,222.94</td>
+<td class="numeric">-5.13</td>
+<td class="numeric">0.084449</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p75</td>
+<td class="numeric">1,125.79</td>
+<td class="numeric">1,165.53</td>
+<td class="numeric">+3.41</td>
+<td class="numeric">0.110957</td>
+</tr>
+</tbody></table>
+<p>The per-type p = .50 breakdown below is event-averaged within the fixed packet and therefore sums to the pooled 36-case calculation. Small counts remain descriptive.</p>
+<table>
+<thead>
+<tr>
+<th>Pool</th>
+<th>Type</th>
+<th>Cases</th>
+<th>MAE ₱</th>
+<th>Baseline ₱</th>
+<th>Reduction %</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>type</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">5</td>
+<td class="numeric">580.00</td>
+<td class="numeric">520.00</td>
+<td class="numeric">-11.54</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Educational</td>
+<td class="numeric">5</td>
+<td class="numeric">994.46</td>
+<td class="numeric">986.43</td>
+<td class="numeric">-0.81</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Food Assistance</td>
+<td class="numeric">4</td>
+<td class="numeric">337.50</td>
+<td class="numeric">437.50</td>
+<td class="numeric">+22.86</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Funeral</td>
+<td class="numeric">8</td>
+<td class="numeric">1,642.37</td>
+<td class="numeric">2,450.29</td>
+<td class="numeric">+32.97</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Medical</td>
+<td class="numeric">14</td>
+<td class="numeric">3,090.02</td>
+<td class="numeric">1,081.52</td>
+<td class="numeric">-185.71</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Transportation</td>
+<td class="numeric">4</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">5</td>
+<td class="numeric">580.00</td>
+<td class="numeric">520.00</td>
+<td class="numeric">-11.54</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>Educational</td>
+<td class="numeric">5</td>
+<td class="numeric">738.08</td>
+<td class="numeric">986.43</td>
+<td class="numeric">+25.18</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>Food Assistance</td>
+<td class="numeric">4</td>
+<td class="numeric">337.50</td>
+<td class="numeric">437.50</td>
+<td class="numeric">+22.86</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>Funeral</td>
+<td class="numeric">8</td>
+<td class="numeric">1,706.13</td>
+<td class="numeric">2,450.29</td>
+<td class="numeric">+30.37</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>Medical</td>
+<td class="numeric">14</td>
+<td class="numeric">1,763.79</td>
+<td class="numeric">1,081.52</td>
+<td class="numeric">-63.08</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>Transportation</td>
+<td class="numeric">4</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+</tr>
+</tbody></table>
+<p>For the 14 medical fixed cases, the pool amendment lowers corrected MAE from ₱3,090.02 to ₱1,763.79, but the medical purpose baseline is ₱1,081.52. The amended medical result is still 63.08% worse than that baseline. Thus removing cross-purpose neighbors addresses part of the diagnosed error without establishing success for these cases.</p>
+<h2>4.15 Repeated weight comparisons on corrected data</h2>
+<p>Both pools use the same fixed five applicant folds, fold/optimizer seeds, 39 nonnegative weights summing to 39 and 200 objective evaluations per search. Training and held-out scoring retain the applicant-averaged scaled objective. A query’s reference values fit its scales; held-out outcomes do not enter the search. The thirty-set noise floor is the sample standard deviation of equal-minus-learned objective gaps. Evidence requires mean gap above that floor and the original applicant-paired two-sided Wilcoxon p &lt; .05 on the primary set. Each condition is reported separately. Improvement over equal weights is a different question from the fixed baseline test in Section 4.14.</p>
+<p>The previously selected plain money scaling and categorical duration were frozen. Historical transformation-selection comparisons are retained in Section 4.5 but were not rerun on corrected outcomes. No claim is made that the former selection was independently revalidated under the amendments.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Pool</th>
+<th>Condition</th>
+<th>Equal objective</th>
+<th>Learned objective</th>
+<th>30-set mean gap</th>
+<th>Noise SD</th>
+<th>Wilcoxon p</th>
+<th>Evidence rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>type</td>
+<td>p00</td>
+<td class="numeric">0.182232</td>
+<td class="numeric">0.156962</td>
+<td class="numeric">0.023033</td>
+<td class="numeric">0.005916</td>
+<td class="numeric">4.48e-08</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>type</td>
+<td>p25</td>
+<td class="numeric">0.171506</td>
+<td class="numeric">0.140575</td>
+<td class="numeric">0.022489</td>
+<td class="numeric">0.007421</td>
+<td class="numeric">1.12e-06</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>type</td>
+<td>p50</td>
+<td class="numeric">0.168369</td>
+<td class="numeric">0.137199</td>
+<td class="numeric">0.024521</td>
+<td class="numeric">0.005662</td>
+<td class="numeric">3.34e-06</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>type</td>
+<td>p75</td>
+<td class="numeric">0.153783</td>
+<td class="numeric">0.120608</td>
+<td class="numeric">0.026188</td>
+<td class="numeric">0.003956</td>
+<td class="numeric">4.06e-10</td>
+<td>Pass</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p00</td>
+<td class="numeric">0.153053</td>
+<td class="numeric">0.153735</td>
+<td>Unavailable</td>
+<td>Unavailable</td>
+<td class="numeric">0.534</td>
+<td>Unavailable</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p25</td>
+<td class="numeric">0.142799</td>
+<td class="numeric">0.139540</td>
+<td>Unavailable</td>
+<td>Unavailable</td>
+<td class="numeric">0.246</td>
+<td>Unavailable</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p50</td>
+<td class="numeric">0.142649</td>
+<td class="numeric">0.139994</td>
+<td>Unavailable</td>
+<td>Unavailable</td>
+<td class="numeric">0.414</td>
+<td>Unavailable</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p75</td>
+<td class="numeric">0.124592</td>
+<td class="numeric">0.125377</td>
+<td>Unavailable</td>
+<td>Unavailable</td>
+<td class="numeric">0.504</td>
+<td>Unavailable</td>
+</tr>
+</tbody></table>
+<p>None of the four primary purpose-pool paired tests meets p &lt; .05 (p values range from .246 to .534). Thus primary weight-learning evidence is not demonstrated, in addition to the unavailable thirty-set noise floor.</p>
+<p>In the primary purpose-pool comparison, learned weights have lower held-out scaled error at p25, p50 and higher error at p00, p75. Thus the historical learning advantage does not persist uniformly once purpose is hard-matched. This does not prove household information is unusable: it describes the fixed search on these data, and the full replication standard below remains unavailable.</p>
+<p>The original type-pool rerun completes all thirty replications. Purpose-pool replication 51024 is infeasible at fixed k = 5: fold 0 has only five training assistive-device records, leaving four eligible references after the query applicant is excluded. That whole replication is explicitly unavailable for all conditions; no query is dropped, no different seed or fold is substituted, and k is not reduced. The other 29 replications are retained, but a noise floor computed from 29 would not satisfy the fixed thirty-set rule, so the purpose-pool mean gap, noise floor and full evidence verdict are unavailable. Its primary Wilcoxon result is reported on its own and cannot establish that full criterion. This limitation was detected from intake pool counts before any purpose-pool outcomes were evaluated, and recorded as an execution-handling addendum.</p>
+<p>All available replicate gaps, primary applicant errors, five-fold weights and 200-row candidate traces per completed fit accompany both comparisons. Neither the search budget nor the stopping rule was increased.</p>
+<h2>4.16 Household signal and weight interpretation after amendment</h2>
+<p>The case-base table reports percentage reductions against each condition’s own purpose baseline using equal weights. For each assistance type, event errors are first averaged within applicant and type and then across applicants. These values are descriptive and use all 1,000 case-base events with applicant exclusions; they are not the forty-case fixed test.</p>
+<table>
+<thead>
+<tr>
+<th>Pool</th>
+<th>Weights</th>
+<th>Type</th>
+<th>p00 %</th>
+<th>p25 %</th>
+<th>p50 %</th>
+<th>p75 %</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>type</td>
+<td>equal</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">-14.28</td>
+<td class="numeric">-7.72</td>
+<td class="numeric">+1.65</td>
+<td class="numeric">+7.28</td>
+</tr>
+<tr>
+<td>type</td>
+<td>equal</td>
+<td>Educational</td>
+<td class="numeric">-3.33</td>
+<td class="numeric">-4.17</td>
+<td class="numeric">+9.68</td>
+<td class="numeric">+20.43</td>
+</tr>
+<tr>
+<td>type</td>
+<td>equal</td>
+<td>Food Assistance</td>
+<td class="numeric">-13.50</td>
+<td class="numeric">-13.88</td>
+<td class="numeric">-2.36</td>
+<td class="numeric">+24.28</td>
+</tr>
+<tr>
+<td>type</td>
+<td>equal</td>
+<td>Funeral</td>
+<td class="numeric">-7.31</td>
+<td class="numeric">-4.09</td>
+<td class="numeric">+2.44</td>
+<td class="numeric">+15.96</td>
+</tr>
+<tr>
+<td>type</td>
+<td>equal</td>
+<td>Medical</td>
+<td class="numeric">-360.43</td>
+<td class="numeric">-379.80</td>
+<td class="numeric">-337.07</td>
+<td class="numeric">-334.13</td>
+</tr>
+<tr>
+<td>type</td>
+<td>learned</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">-12.28</td>
+<td class="numeric">-1.62</td>
+<td class="numeric">+8.27</td>
+<td class="numeric">+5.08</td>
+</tr>
+<tr>
+<td>type</td>
+<td>learned</td>
+<td>Educational</td>
+<td class="numeric">-4.51</td>
+<td class="numeric">-7.30</td>
+<td class="numeric">+2.57</td>
+<td class="numeric">+16.90</td>
+</tr>
+<tr>
+<td>type</td>
+<td>learned</td>
+<td>Food Assistance</td>
+<td class="numeric">-24.08</td>
+<td class="numeric">-7.95</td>
+<td class="numeric">+1.62</td>
+<td class="numeric">+33.49</td>
+</tr>
+<tr>
+<td>type</td>
+<td>learned</td>
+<td>Funeral</td>
+<td class="numeric">-11.81</td>
+<td class="numeric">-3.57</td>
+<td class="numeric">+7.16</td>
+<td class="numeric">+17.79</td>
+</tr>
+<tr>
+<td>type</td>
+<td>learned</td>
+<td>Medical</td>
+<td class="numeric">-35.11</td>
+<td class="numeric">-20.83</td>
+<td class="numeric">-12.98</td>
+<td class="numeric">-8.90</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>equal</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">-14.28</td>
+<td class="numeric">-7.72</td>
+<td class="numeric">+1.65</td>
+<td class="numeric">+7.28</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>equal</td>
+<td>Educational</td>
+<td class="numeric">-5.70</td>
+<td class="numeric">-3.92</td>
+<td class="numeric">-3.83</td>
+<td class="numeric">+10.39</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>equal</td>
+<td>Food Assistance</td>
+<td class="numeric">-13.50</td>
+<td class="numeric">-13.88</td>
+<td class="numeric">-2.36</td>
+<td class="numeric">+24.28</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>equal</td>
+<td>Funeral</td>
+<td class="numeric">-11.62</td>
+<td class="numeric">-5.79</td>
+<td class="numeric">-1.63</td>
+<td class="numeric">+13.75</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>equal</td>
+<td>Medical</td>
+<td class="numeric">-14.84</td>
+<td class="numeric">-9.28</td>
+<td class="numeric">+10.26</td>
+<td class="numeric">+22.40</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>learned</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">-19.31</td>
+<td class="numeric">-2.05</td>
+<td class="numeric">+8.41</td>
+<td class="numeric">+5.91</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>learned</td>
+<td>Educational</td>
+<td class="numeric">+3.94</td>
+<td class="numeric">-4.57</td>
+<td class="numeric">-2.41</td>
+<td class="numeric">+9.28</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>learned</td>
+<td>Food Assistance</td>
+<td class="numeric">-18.17</td>
+<td class="numeric">-7.75</td>
+<td class="numeric">-2.07</td>
+<td class="numeric">+22.73</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>learned</td>
+<td>Funeral</td>
+<td class="numeric">-12.51</td>
+<td class="numeric">-6.40</td>
+<td class="numeric">-2.26</td>
+<td class="numeric">+13.72</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>learned</td>
+<td>Medical</td>
+<td class="numeric">-14.09</td>
+<td class="numeric">-6.69</td>
+<td class="numeric">+11.81</td>
+<td class="numeric">+21.87</td>
+</tr>
+</tbody></table>
+<p>For the corrected type pool, 2 of the five non-transport types have strictly increasing equal-weight reductions across all four signal conditions. Medical reductions are -360.43%, -379.80%, -337.07%, -334.13%. This orders observed performance against condition-specific baselines; it is not a causal identification test or evidence of practitioner usefulness.</p>
+<p>For the corrected purpose pool, 4 of the five non-transport types have strictly increasing equal-weight reductions across all four signal conditions. Medical reductions are -14.84%, -9.28%, +10.26%, +22.40%. This orders observed performance against condition-specific baselines; it is not a causal identification test or evidence of practitioner usefulness.</p>
+<p>Under purpose pooling the medical case-base reduction moves from −337.07% in the corrected type pool to +10.26% at the main condition and +22.40% at p75. Removing cross-purpose neighbors therefore produces the predicted improvement in medical case-base retrieval. This directly supports the purpose-pool diagnosis within the corrected synthetic comparison; it does not establish that purpose confusion explains every remaining error or overturn the medical fixed-case deficit in Section 4.14.</p>
+<p>At p75, all five non-transport types beat their own purpose baselines under equal-weight purpose pooling: cash relief +7.28%, educational +10.39%, food +24.28%, funeral +13.75% and medical +22.40%. Transportation remains zero-error against a zero-error baseline and cannot be counted as beating it. Four of the five non-transport types improve strictly across all four signal levels; food dips between p00 and p25. At p = .50 the five reductions are +1.65%, −3.83%, −2.36%, −1.63% and +10.26%, respectively. This contrast supports retrieval responding to the planted household relationship more successfully at stronger signal. It does not demonstrate that learned weights recover household fields, and it does not locate real AICS records on this researcher-set signal scale.</p>
+<p>Purpose becomes constant within purpose pools and contributes no distance there. Its disappearance from active fields is therefore a structural consequence of the amendment, not evidence that the optimizer learned to ignore it. The weight-mass table reports means across the five fitted folds. Rule mass includes purpose plus the 28 household fields; household mass excludes purpose. Equal weights allocate 74.36% and 71.79%, respectively. Relative weight mass alone does not identify each field’s causal contribution.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Pool</th>
+<th>Condition</th>
+<th>All rule mass %</th>
+<th>Household mass %</th>
+<th>Reference objective</th>
+<th>Learned − reference</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>type</td>
+<td>p00</td>
+<td class="numeric">79.45</td>
+<td class="numeric">71.45</td>
+<td class="numeric">0.176583</td>
+<td class="numeric">-0.019620</td>
+</tr>
+<tr>
+<td>type</td>
+<td>p25</td>
+<td class="numeric">78.09</td>
+<td class="numeric">68.37</td>
+<td class="numeric">0.164868</td>
+<td class="numeric">-0.024293</td>
+</tr>
+<tr>
+<td>type</td>
+<td>p50</td>
+<td class="numeric">76.59</td>
+<td class="numeric">68.97</td>
+<td class="numeric">0.158505</td>
+<td class="numeric">-0.021307</td>
+</tr>
+<tr>
+<td>type</td>
+<td>p75</td>
+<td class="numeric">78.76</td>
+<td class="numeric">70.37</td>
+<td class="numeric">0.149465</td>
+<td class="numeric">-0.028858</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p00</td>
+<td class="numeric">74.27</td>
+<td class="numeric">71.77</td>
+<td class="numeric">0.149653</td>
+<td class="numeric">0.004082</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p25</td>
+<td class="numeric">74.98</td>
+<td class="numeric">73.25</td>
+<td class="numeric">0.139453</td>
+<td class="numeric">0.000086</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p50</td>
+<td class="numeric">71.81</td>
+<td class="numeric">68.95</td>
+<td class="numeric">0.137684</td>
+<td class="numeric">0.002310</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td>p75</td>
+<td class="numeric">72.87</td>
+<td class="numeric">71.17</td>
+<td class="numeric">0.128011</td>
+<td class="numeric">-0.002634</td>
+</tr>
+</tbody></table>
+<p>At p = .50, learned household-only mass in the type pool is 68.97%, below the equal-weight allocation of 71.79%. At p = 0, its held-out equal-minus-learned objective gap is +0.025270. A control gap is interpreted separately from recovery of the planted household relationship.</p>
+<p>At p = .50, learned household-only mass in the purpose pool is 68.95%, below the equal-weight allocation of 71.79%. At p = 0, its held-out equal-minus-learned objective gap is -0.000682. A control gap is interpreted separately from recovery of the planted household relationship.</p>
+<p>The reference assigns equal positive weight to the 29 nominal rule fields and zero to the other ten. In purpose pools, purpose is inactive and its nominal positive weight has no effect on neighbors. The reference is an audit comparison, not an optimized oracle. Historical household-weight findings in Section 4.8 remain attached to their original data version; they must not be silently replaced by the amended results.</p>
+<h2>4.17 Sensitivity runtime and limits of the follow-ups</h2>
+<p>Sensitivity keeps each condition’s fitted k = 5 weights fixed and changes only the number retrieved to 3, 5, 7 or 10. The table reports applicant-averaged scaled case-base objectives at p = .50; complete four-condition results accompany the evidence. No sensitivity setting was substituted for the main result.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Pool</th>
+<th>k</th>
+<th>Equal objective</th>
+<th>Fixed learned objective</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>type</td>
+<td class="numeric">3</td>
+<td class="numeric">0.174880</td>
+<td class="numeric">0.144486</td>
+</tr>
+<tr>
+<td>type</td>
+<td class="numeric">5</td>
+<td class="numeric">0.168369</td>
+<td class="numeric">0.137199</td>
+</tr>
+<tr>
+<td>type</td>
+<td class="numeric">7</td>
+<td class="numeric">0.158230</td>
+<td class="numeric">0.133804</td>
+</tr>
+<tr>
+<td>type</td>
+<td class="numeric">10</td>
+<td class="numeric">0.153950</td>
+<td class="numeric">0.132012</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td class="numeric">3</td>
+<td class="numeric">0.149579</td>
+<td class="numeric">0.147827</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td class="numeric">5</td>
+<td class="numeric">0.142649</td>
+<td class="numeric">0.139994</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td class="numeric">7</td>
+<td class="numeric">0.131041</td>
+<td class="numeric">0.135374</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td class="numeric">10</td>
+<td class="numeric">0.129315</td>
+<td class="numeric">0.128469</td>
+</tr>
+</tbody></table>
+<p>At p = .50 the equal-weight objective falls at every tested increase in k: type pool 0.174880, 0.168369, 0.158230 and 0.153950; purpose pool 0.149579, 0.142649, 0.131041 and 0.129315 for k = 3, 5, 7 and 10. This monotonic statement applies to these equal-weight settings, not every weight scheme, signal level or future k.</p>
+<p>A possible interpretation is a trade-off between household matching and the variability of a five-neighbor median. The purpose baseline uses all eligible same-purpose reference events, while retrieval uses five. For cost-bearing cases both combine grant-to-cost shares; for food and cash relief they combine amounts directly. The baseline estimates a purpose-level median, whereas retrieval tries to exploit household-specific information. They need not estimate the same conditional quantity when household effects exist. Retrieval benefits only if the useful local information outweighs the error associated with its smaller selected set. The observed k pattern is consistent with a benefit from averaging over more neighbors, but it does not isolate estimator variance from selection bias, distance quality, pool composition or other causes. No variance decomposition was performed. Likewise, the non-monotonic forty-case reductions (+2.94%, −29.51%, −5.13%, +3.41%) cannot simply be declared noise from their size alone.</p>
+<p>The main setting stays k = 5 and p = .50. Neither the better k = 10 sensitivity value nor the stronger p75 results were substituted for the fixed test. Studying signal strength in independently obtained real records, per-type weights on a larger base, and the neighbor-count trade-off are future research questions for Chapter 5; no new experiment or operational commitment follows from this discussion.</p>
+<table class="compact">
+<thead>
+<tr>
+<th>Pool</th>
+<th>Run 1 sec</th>
+<th>Run 2 sec</th>
+<th>Run 3 sec</th>
+<th>Median sec</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>type</td>
+<td class="numeric">121.68</td>
+<td class="numeric">34.88</td>
+<td class="numeric">34.61</td>
+<td class="numeric">34.88</td>
+</tr>
+<tr>
+<td>purpose</td>
+<td class="numeric">13.83</td>
+<td class="numeric">14.39</td>
+<td class="numeric">14.57</td>
+<td class="numeric">14.39</td>
+</tr>
+</tbody></table>
+<p>These timings cover one primary five-fold/four-condition evaluation with fixed searches and trace writes, not dataset generation, all thirty replications or interactive prototype latency. Repeated primary runs reproduce the same held-out learned errors and weights. The first run can overlap other local work, and the replication phase uses three worker threads; timings are measurements of this execution, not guaranteed service times.</p>
+<p>All 83 backend checks pass. An independent scalar implementation reproduces all 320 fixed-case predictions, baselines and neighbor sets across four conditions and both pools. Independent SciPy calculations reproduce all eight primary Wilcoxon p-values. These software checks establish reproducibility of the reported calculation, not the study’s success or real-world validity.</p>
+<p>The minimum primary case-base reference counts after exclusions are type: 78, purpose: 13. Every evaluated primary query returned five defined neighbors. Thin medical purpose pools still limit stability; no pool was supplemented with other purposes to conceal that constraint.</p>
+<p>The amended comparisons reuse the same synthetic inputs and fixed cases after an observed failure. They diagnose that failure; they do not supply independent confirmatory data. Synthetic household patterns, known grant rules, missingness assumptions and small fixed-case groups continue to restrict interpretation. No social worker, UAT or SUS result is available to establish usefulness in actual practice. The v27 removal of a commitment to return to CIS is respected; no such commitment is made here. Chapter 5 is assigned to Rygan and is outside this draft.</p>
+<h2>Appendix 4A Historical pre-correction per-type case-base errors</h2>
+<p>Each row first averages event errors within applicant and assistance type, then
+averages those applicant errors. An applicant with events in more than one type
+can appear in more than one row. Peso and scaled errors are both reported;
+transportation has no defined scaled width. The purpose baseline uses the same
+eligible pool and exclusions as retrieval.</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Method</th>
+<th>Type</th>
+<th>Applicants</th>
+<th>Events</th>
+<th>MAE ₱</th>
+<th>Baseline ₱</th>
+<th>Scaled MAE</th>
+<th>Reduction %</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>p00</td>
+<td>equal</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">98</td>
+<td class="numeric">100</td>
+<td class="numeric">1,106.63</td>
+<td class="numeric">968.37</td>
+<td class="numeric">0.122959</td>
+<td class="numeric">-14.28</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>equal</td>
+<td>Educational</td>
+<td class="numeric">78</td>
+<td class="numeric">80</td>
+<td class="numeric">1,497.48</td>
+<td class="numeric">1,449.27</td>
+<td class="numeric">0.332773</td>
+<td class="numeric">-3.33</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>equal</td>
+<td>Food Assistance</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">851.25</td>
+<td class="numeric">750.00</td>
+<td class="numeric">0.425625</td>
+<td class="numeric">-13.50</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>equal</td>
+<td>Funeral</td>
+<td class="numeric">143</td>
+<td class="numeric">150</td>
+<td class="numeric">2,925.54</td>
+<td class="numeric">2,726.14</td>
+<td class="numeric">0.146277</td>
+<td class="numeric">-7.31</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>equal</td>
+<td>Medical</td>
+<td class="numeric">461</td>
+<td class="numeric">510</td>
+<td class="numeric">9,029.69</td>
+<td class="numeric">1,961.14</td>
+<td class="numeric">0.141213</td>
+<td class="numeric">-360.43</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>equal</td>
+<td>Transportation</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+<td class="numeric">N/A</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>learned</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">98</td>
+<td class="numeric">100</td>
+<td class="numeric">1,087.24</td>
+<td class="numeric">968.37</td>
+<td class="numeric">0.120805</td>
+<td class="numeric">-12.28</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>learned</td>
+<td>Educational</td>
+<td class="numeric">78</td>
+<td class="numeric">80</td>
+<td class="numeric">1,514.63</td>
+<td class="numeric">1,449.27</td>
+<td class="numeric">0.336585</td>
+<td class="numeric">-4.51</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>learned</td>
+<td>Food Assistance</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">930.62</td>
+<td class="numeric">750.00</td>
+<td class="numeric">0.465313</td>
+<td class="numeric">-24.08</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>learned</td>
+<td>Funeral</td>
+<td class="numeric">143</td>
+<td class="numeric">150</td>
+<td class="numeric">3,048.22</td>
+<td class="numeric">2,726.14</td>
+<td class="numeric">0.152411</td>
+<td class="numeric">-11.81</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>learned</td>
+<td>Medical</td>
+<td class="numeric">461</td>
+<td class="numeric">510</td>
+<td class="numeric">2,649.67</td>
+<td class="numeric">1,961.14</td>
+<td class="numeric">0.088503</td>
+<td class="numeric">-35.11</td>
+</tr>
+<tr>
+<td>p00</td>
+<td>learned</td>
+<td>Transportation</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+<td class="numeric">N/A</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>equal</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">98</td>
+<td class="numeric">100</td>
+<td class="numeric">981.89</td>
+<td class="numeric">889.29</td>
+<td class="numeric">0.109099</td>
+<td class="numeric">-10.41</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>equal</td>
+<td>Educational</td>
+<td class="numeric">78</td>
+<td class="numeric">80</td>
+<td class="numeric">1,568.83</td>
+<td class="numeric">1,540.58</td>
+<td class="numeric">0.348629</td>
+<td class="numeric">-1.83</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>equal</td>
+<td>Food Assistance</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">714.38</td>
+<td class="numeric">632.50</td>
+<td class="numeric">0.357187</td>
+<td class="numeric">-12.94</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>equal</td>
+<td>Funeral</td>
+<td class="numeric">143</td>
+<td class="numeric">150</td>
+<td class="numeric">3,050.22</td>
+<td class="numeric">2,900.77</td>
+<td class="numeric">0.152511</td>
+<td class="numeric">-5.15</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>equal</td>
+<td>Medical</td>
+<td class="numeric">461</td>
+<td class="numeric">510</td>
+<td class="numeric">9,576.65</td>
+<td class="numeric">1,964.81</td>
+<td class="numeric">0.135346</td>
+<td class="numeric">-387.41</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>equal</td>
+<td>Transportation</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+<td class="numeric">N/A</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>learned</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">98</td>
+<td class="numeric">100</td>
+<td class="numeric">1,023.47</td>
+<td class="numeric">889.29</td>
+<td class="numeric">0.113719</td>
+<td class="numeric">-15.09</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>learned</td>
+<td>Educational</td>
+<td class="numeric">78</td>
+<td class="numeric">80</td>
+<td class="numeric">1,795.99</td>
+<td class="numeric">1,540.58</td>
+<td class="numeric">0.399109</td>
+<td class="numeric">-16.58</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>learned</td>
+<td>Food Assistance</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">656.25</td>
+<td class="numeric">632.50</td>
+<td class="numeric">0.328125</td>
+<td class="numeric">-3.75</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>learned</td>
+<td>Funeral</td>
+<td class="numeric">143</td>
+<td class="numeric">150</td>
+<td class="numeric">3,029.14</td>
+<td class="numeric">2,900.77</td>
+<td class="numeric">0.151457</td>
+<td class="numeric">-4.43</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>learned</td>
+<td>Medical</td>
+<td class="numeric">461</td>
+<td class="numeric">510</td>
+<td class="numeric">2,496.94</td>
+<td class="numeric">1,964.81</td>
+<td class="numeric">0.083826</td>
+<td class="numeric">-27.08</td>
+</tr>
+<tr>
+<td>p25</td>
+<td>learned</td>
+<td>Transportation</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+<td class="numeric">N/A</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>equal</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">98</td>
+<td class="numeric">100</td>
+<td class="numeric">921.43</td>
+<td class="numeric">927.55</td>
+<td class="numeric">0.102381</td>
+<td class="numeric">0.66</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>equal</td>
+<td>Educational</td>
+<td class="numeric">78</td>
+<td class="numeric">80</td>
+<td class="numeric">1,383.55</td>
+<td class="numeric">1,535.44</td>
+<td class="numeric">0.307455</td>
+<td class="numeric">9.89</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>equal</td>
+<td>Food Assistance</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">847.50</td>
+<td class="numeric">836.25</td>
+<td class="numeric">0.423750</td>
+<td class="numeric">-1.35</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>equal</td>
+<td>Funeral</td>
+<td class="numeric">143</td>
+<td class="numeric">150</td>
+<td class="numeric">2,451.38</td>
+<td class="numeric">2,539.45</td>
+<td class="numeric">0.122569</td>
+<td class="numeric">3.47</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>equal</td>
+<td>Medical</td>
+<td class="numeric">461</td>
+<td class="numeric">510</td>
+<td class="numeric">9,609.42</td>
+<td class="numeric">2,181.87</td>
+<td class="numeric">0.130962</td>
+<td class="numeric">-340.42</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>equal</td>
+<td>Transportation</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+<td class="numeric">N/A</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>learned</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">98</td>
+<td class="numeric">100</td>
+<td class="numeric">906.12</td>
+<td class="numeric">927.55</td>
+<td class="numeric">0.100680</td>
+<td class="numeric">2.31</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>learned</td>
+<td>Educational</td>
+<td class="numeric">78</td>
+<td class="numeric">80</td>
+<td class="numeric">1,458.11</td>
+<td class="numeric">1,535.44</td>
+<td class="numeric">0.324025</td>
+<td class="numeric">5.04</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>learned</td>
+<td>Food Assistance</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">815.00</td>
+<td class="numeric">836.25</td>
+<td class="numeric">0.407500</td>
+<td class="numeric">2.54</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>learned</td>
+<td>Funeral</td>
+<td class="numeric">143</td>
+<td class="numeric">150</td>
+<td class="numeric">2,207.77</td>
+<td class="numeric">2,539.45</td>
+<td class="numeric">0.110388</td>
+<td class="numeric">13.06</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>learned</td>
+<td>Medical</td>
+<td class="numeric">461</td>
+<td class="numeric">510</td>
+<td class="numeric">2,626.08</td>
+<td class="numeric">2,181.87</td>
+<td class="numeric">0.080893</td>
+<td class="numeric">-20.36</td>
+</tr>
+<tr>
+<td>p50</td>
+<td>learned</td>
+<td>Transportation</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+<td class="numeric">N/A</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>equal</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">98</td>
+<td class="numeric">100</td>
+<td class="numeric">833.93</td>
+<td class="numeric">926.79</td>
+<td class="numeric">0.092659</td>
+<td class="numeric">10.02</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>equal</td>
+<td>Educational</td>
+<td class="numeric">78</td>
+<td class="numeric">80</td>
+<td class="numeric">1,241.37</td>
+<td class="numeric">1,488.32</td>
+<td class="numeric">0.275859</td>
+<td class="numeric">16.59</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>equal</td>
+<td>Food Assistance</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">704.38</td>
+<td class="numeric">915.00</td>
+<td class="numeric">0.352187</td>
+<td class="numeric">23.02</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>equal</td>
+<td>Funeral</td>
+<td class="numeric">143</td>
+<td class="numeric">150</td>
+<td class="numeric">2,411.05</td>
+<td class="numeric">2,830.06</td>
+<td class="numeric">0.120552</td>
+<td class="numeric">14.81</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>equal</td>
+<td>Medical</td>
+<td class="numeric">461</td>
+<td class="numeric">510</td>
+<td class="numeric">9,991.49</td>
+<td class="numeric">2,309.18</td>
+<td class="numeric">0.125976</td>
+<td class="numeric">-332.69</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>equal</td>
+<td>Transportation</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+<td class="numeric">N/A</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>learned</td>
+<td>Cash Relief Assistance</td>
+<td class="numeric">98</td>
+<td class="numeric">100</td>
+<td class="numeric">803.06</td>
+<td class="numeric">926.79</td>
+<td class="numeric">0.089229</td>
+<td class="numeric">13.35</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>learned</td>
+<td>Educational</td>
+<td class="numeric">78</td>
+<td class="numeric">80</td>
+<td class="numeric">1,305.22</td>
+<td class="numeric">1,488.32</td>
+<td class="numeric">0.290048</td>
+<td class="numeric">12.30</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>learned</td>
+<td>Food Assistance</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">763.75</td>
+<td class="numeric">915.00</td>
+<td class="numeric">0.381875</td>
+<td class="numeric">16.53</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>learned</td>
+<td>Funeral</td>
+<td class="numeric">143</td>
+<td class="numeric">150</td>
+<td class="numeric">2,421.29</td>
+<td class="numeric">2,830.06</td>
+<td class="numeric">0.121065</td>
+<td class="numeric">14.44</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>learned</td>
+<td>Medical</td>
+<td class="numeric">461</td>
+<td class="numeric">510</td>
+<td class="numeric">2,258.18</td>
+<td class="numeric">2,309.18</td>
+<td class="numeric">0.067602</td>
+<td class="numeric">2.21</td>
+</tr>
+<tr>
+<td>p75</td>
+<td>learned</td>
+<td>Transportation</td>
+<td class="numeric">80</td>
+<td class="numeric">80</td>
+<td class="numeric">0.00</td>
+<td class="numeric">0.00</td>
+<td class="numeric">N/A</td>
+<td class="numeric">N/A</td>
+</tr>
+</tbody></table>
+<section class="sources"><h2>Sources and evidence</h2>
+<ul>
+<li>Manuscript Chapters 1–3 <strong>v27</strong>, supplied by the research team, dated <strong>20 October 2026</strong>, especially Sections 1.5, 3.2.1–3.2.4 and 3.4 and Table 3.1. This is the current manuscript source. SHA-256: <code>3cd23ede6604aad91e24ed23c5cd8a0bf2d1a8c8351ce730cde5d00face6080a</code>.</li>
+<li>The original AICS v25 handoff remains the historical source bundle for the frozen intake records, amount code, Context for Astra (18 October 2026), Amount Rule Specification v3 and the original failed experiment. Its older manuscript is not cited as the current Chapters 1–3.</li>
+<li>DSWD PDPB (2022), Process Evaluation of AICS: historical cost/share benchmarks transcribed and checked in the earlier evidence. Device and transport values remain declared assumptions, not new published estimates.</li>
+<li>Henri’s explicit 20 October 2026 post-failure instruction; <code>POST_TEST_DECISION_2026-10-20_v01.md</code>; pre-correction vendor pair-check report; <code>post-test-correction-2026-10-20-v1</code> datasets, hashes, pair checks, calibration, primary and thirty-replication results, traces and statistical cross-checks for both pools.</li>
+<li>The earlier reconciliation contract, method choices, manifests and <code>completed-study-v1</code> results remain preserved as historical evidence. No new adviser approval, practitioner feedback, UAT or SUS is claimed.</li>
+</ul>
+</section></main></html>
