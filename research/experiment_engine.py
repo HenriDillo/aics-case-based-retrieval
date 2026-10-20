@@ -60,12 +60,16 @@ class Block:
         return indices, distance, ((den<=0)&self.eligible).sum(axis=1)
 
 
-def blocks(queries, references, money='plain', duration='categorical', reviewed=False):
+def blocks(queries, references, money='plain', duration='categorical', reviewed=False, pool='type'):
+    if pool not in ('type','purpose'):
+        raise ValueError('Pool must be type or purpose')
     result=[]
-    for typ in sorted({r.values['assistance_type_granted'] for r in queries}):
-        qs=[q for q in queries if q.values['assistance_type_granted']==typ]
-        rs=sorted([r for r in references if r.values['assistance_type_granted']==typ],
+    groups=sorted({(r.values['assistance_type_granted'],r.values['purpose_of_assistance'] if pool=='purpose' else '') for r in queries})
+    for typ,purpose in groups:
+        qs=[q for q in queries if q.values['assistance_type_granted']==typ and (pool=='type' or q.values['purpose_of_assistance']==purpose)]
+        rs=sorted([r for r in references if r.values['assistance_type_granted']==typ and (pool=='type' or r.values['purpose_of_assistance']==purpose)],
                   key=lambda r:(r.applicant_id,r.event_id or ''))
+        if not rs:raise ValueError('Empty eligible pool')
         eligible=np.array([[r.applicant_id!=q.applicant_id and
             (not reviewed or r.applicant_id!=PARTNERS.get(q.applicant_id)) for r in rs] for q in qs])
         shape=(len(FIELDS),len(qs),len(rs))
